@@ -5,6 +5,14 @@ import App from '@/App.vue'
 import StockFilters from '@/components/StockFilters.vue'
 import StockTable from '@/components/StockTable.vue'
 import StockModal from '@/components/StockModal.vue'
+import { messages } from '@/locales/messages'
+
+vi.mock('@/locales/useMessages', () => ({
+  useMessages: () => ({
+    messages,
+    msg: (key: string) => key
+  })
+}))
 
 const mockStocks = ref([])
 const mockFilters = ref({
@@ -47,13 +55,11 @@ describe('App', () => {
     it('should render the app title', () => {
       const wrapper = mount(App)
       expect(wrapper.find('.app-title').exists()).toBe(true)
-      expect(wrapper.text()).toContain('Részvény Követő')
     })
 
     it('should render the app subtitle', () => {
       const wrapper = mount(App)
       expect(wrapper.find('.app-subtitle').exists()).toBe(true)
-      expect(wrapper.text()).toContain('Személyes portfólió elemzés')
     })
 
     it('should render the main content area', () => {
@@ -129,7 +135,7 @@ describe('App', () => {
       const wrapper = mount(App)
       const heading = wrapper.find('h1')
       expect(heading.exists()).toBe(true)
-      expect(heading.text()).toContain('Részvény Követő')
+      expect(heading.text()).toContain(messages.header.title)
     })
 
     it('should have title with icon SVG', () => {

@@ -1,5 +1,6 @@
 import { ref, computed, type Ref } from 'vue'
 import type { Stock, StockFilters } from '@/types/Stock'
+import { messages } from '@/locales/messages'
 import stocksData from '@/data/stocks.json'
 
 export function useStocks() {
@@ -26,7 +27,7 @@ export function useStocks() {
       await new Promise(resolve => setTimeout(resolve, 100))
       stocks.value = stocksData as Stock[]
     } catch (e) {
-      error.value = 'Failed to load stocks'
+      error.value = messages.errors.loadStocksFailed
       console.error('Error loading stocks:', e)
     } finally {
       loading.value = false

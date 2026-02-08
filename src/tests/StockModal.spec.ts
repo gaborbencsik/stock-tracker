@@ -1,7 +1,15 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import StockModal from '@/components/StockModal.vue'
+import { messages } from '@/locales/messages'
 import type { Stock } from '@/types/Stock'
+
+vi.mock('@/locales/useMessages', () => ({
+  useMessages: () => ({
+    messages,
+    msg: (key: string) => key
+  })
+}))
 
 describe('StockModal', () => {
   const mockStock: Stock = {

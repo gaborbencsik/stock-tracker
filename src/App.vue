@@ -7,9 +7,9 @@
             <path d="M3 3v18h18"/>
             <path d="m19 9-5 5-4-4-3 3"/>
           </svg>
-          Részvény Követő
+          {{ messages.header.title }}
         </h1>
-        <p class="app-subtitle">Személyes portfólió elemzés és nyomon követés</p>
+        <p class="app-subtitle">{{ messages.header.subtitle }}</p>
       </div>
     </header>
 
@@ -29,7 +29,7 @@
             >
               <path d="M6 9l6 6 6-6"/>
             </svg>
-            {{ filtersVisible ? 'Szűrők elrejtése' : 'Szűrők megjelenítése' }}
+            {{ filtersVisible ? messages.filters.toggleHide : messages.filters.toggleShow }}
             <span v-if="activeFiltersCount > 0" class="filter-badge">
               {{ activeFiltersCount }}
             </span>
@@ -72,7 +72,10 @@ import StockTable from './components/StockTable.vue'
 import StockModal from './components/StockModal.vue'
 import StockFilters from './components/StockFilters.vue'
 import { useStocks } from './composables/useStocks'
+import { useMessages } from './locales/useMessages'
 import type { Stock, StockFilters as StockFiltersType } from './types/Stock'
+
+const { messages } = useMessages()
 
 const {
   loading,

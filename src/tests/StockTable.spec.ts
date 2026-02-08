@@ -1,8 +1,16 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import StockTable from '@/components/StockTable.vue'
+import { messages } from '@/locales/messages'
 import type { Stock } from '@/types/Stock'
+
+vi.mock('@/locales/useMessages', () => ({
+  useMessages: () => ({
+    messages,
+    msg: (key: string) => key
+  })
+}))
 
 describe('StockTable', () => {
   const mockStocks: Stock[] = [
@@ -71,7 +79,7 @@ describe('StockTable', () => {
       })
 
       expect(wrapper.find('.empty-state').exists()).toBe(true)
-      expect(wrapper.text()).toContain('Nincs megjeleníthető részvény')
+      expect(wrapper.text()).toContain(messages.table.empty.title)
     })
 
     it('should render correct number of rows', () => {

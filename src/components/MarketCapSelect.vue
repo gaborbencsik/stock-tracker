@@ -8,7 +8,7 @@
             type="button"
             class="market-cap-chip-remove"
             @click.stop="removeValue(value)"
-            aria-label="Remove"
+            :aria-label="`Remove ${formatLabel(value)}`"
           >
             ×
           </button>
@@ -17,7 +17,7 @@
           v-if="modelValue.length < 3"
           type="text"
           class="market-cap-input"
-          placeholder="Piaci érték"
+          :placeholder="messages.filters.marketCap.label"
           readonly
         />
       </div>
@@ -28,7 +28,7 @@
         v-model="searchTerm"
         type="text"
         class="market-cap-search"
-        placeholder="Keresés..."
+        :placeholder="messages.filters.marketCap.searchPlaceholder"
       />
 
       <label class="market-cap-select-all">
@@ -38,7 +38,7 @@
           :indeterminate="modelValue.length > 0 && modelValue.length < 3"
           @change="toggleSelectAll"
         />
-        Mindet kijelöl
+        {{ messages.filters.marketCap.selectAll }}
       </label>
 
       <div class="market-cap-options">
@@ -62,6 +62,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useMessages } from '@/locales/useMessages'
+
+const { messages } = useMessages()
 
 type MarketCapValue = 'small' | 'mid' | 'large'
 
@@ -85,9 +88,9 @@ const isOpen = ref(false)
 const searchTerm = ref('')
 
 const options: MarketCapOption[] = [
-  { value: 'small', label: 'Small' },
-  { value: 'mid', label: 'Mid' },
-  { value: 'large', label: 'Large' }
+  { value: 'small', label: messages.filters.marketCap.small },
+  { value: 'mid', label: messages.filters.marketCap.mid },
+  { value: 'large', label: messages.filters.marketCap.large }
 ]
 
 const filteredOptions = computed(() => {

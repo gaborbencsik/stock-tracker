@@ -5,8 +5,8 @@
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
-      <h3>Nincs megjeleníthető részvény</h3>
-      <p>Próbáld meg módosítani a szűrőket</p>
+      <h3>{{ messages.table.empty.title }}</h3>
+      <p>{{ messages.table.empty.description }}</p>
     </div>
 
     <div v-else class="table-wrapper">
@@ -14,54 +14,54 @@
         <thead>
           <tr>
             <th @click="handleSort('ticker')" class="sortable">
-              Ticker
+              {{ messages.table.columns.ticker }}
               <span v-if="sortKey === 'ticker'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('name')" class="sortable">
-              Név
+              {{ messages.table.columns.name }}
               <span v-if="sortKey === 'name'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('stock_exchange')" class="sortable">
-              Tőzsde
+              {{ messages.table.columns.exchange }}
               <span v-if="sortKey === 'stock_exchange'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('market_cap')" class="sortable">
-              Market Cap
+              {{ messages.table.columns.marketCap }}
               <span v-if="sortKey === 'market_cap'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('entry_price')" class="sortable">
-              Belépési ár
+              {{ messages.table.columns.entryPrice }}
               <span v-if="sortKey === 'entry_price'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('uplift_potential')" class="sortable">
-              Potenciál (%)
+              {{ messages.table.columns.potential }}
               <span v-if="sortKey === 'uplift_potential'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('twelve_months_price_target')" class="sortable">
-              12 hónapos cél
+              {{ messages.table.columns.priceTarget12m }}
               <span v-if="sortKey === 'twelve_months_price_target'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('created_at')" class="sortable">
-              Létrehozva
+              {{ messages.table.columns.created }}
               <span v-if="sortKey === 'created_at'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
-            <th>Műveletek</th>
+            <th>{{ messages.table.columns.actions }}</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +92,7 @@
                 @click="handleDetails(stock)"
                 class="details-button"
               >
-                Részletek
+                {{ messages.table.actions.details }}
               </button>
             </td>
           </tr>
@@ -106,6 +106,9 @@
 import { ref, computed } from 'vue'
 import type { Stock } from '@/types/Stock'
 import { formatDateOnly } from '@/utils/dateFormatter'
+import { useMessages } from '@/locales/useMessages'
+
+const { messages } = useMessages()
 
 interface Props {
   stocks: Stock[]

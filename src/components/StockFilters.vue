@@ -1,26 +1,26 @@
 <template>
   <div class="filters-container">
     <div class="filters-header">
-      <h2>Szűrők</h2>
-      <button @click="handleReset" class="reset-button">Visszaállítás</button>
+      <h2>{{ messages.filters.title }}</h2>
+      <button @click="handleReset" class="reset-button">{{ messages.filters.reset }}</button>
     </div>
 
     <div class="filters-grid">
       <div class="filter-group">
-        <label for="search">Keresés (Ticker vagy Név)</label>
+        <label for="search">{{ messages.filters.search.label }}</label>
         <input
           id="search"
           v-model="localFilters.search"
           type="text"
-          placeholder="pl. AAPL, Apple..."
+          :placeholder="messages.filters.search.placeholder"
           class="filter-input"
         />
       </div>
 
       <div class="filter-group">
-        <label for="exchange">Tőzsde</label>
+        <label for="exchange">{{ messages.filters.exchange.label }}</label>
         <select id="exchange" v-model="localFilters.exchange" class="filter-select">
-          <option value="">Összes</option>
+          <option value="">{{ messages.filters.exchange.allOption }}</option>
           <option v-for="exchange in exchanges" :key="exchange" :value="exchange">
             {{ exchange }}
           </option>
@@ -29,9 +29,9 @@
 
       <!-- Currency -->
       <div class="filter-group">
-        <label for="currency">Deviza</label>
+        <label for="currency">{{ messages.filters.currency.label }}</label>
         <select id="currency" v-model="localFilters.currency" class="filter-select">
-          <option value="">Összes</option>
+          <option value="">{{ messages.filters.currency.allOption }}</option>
           <option v-for="currency in currencies" :key="currency" :value="currency">
             {{ currency }}
           </option>
@@ -39,55 +39,55 @@
       </div>
 
       <div class="filter-group">
-        <label for="minPrice">Min. ár</label>
+        <label for="minPrice">{{ messages.filters.minPrice.label }}</label>
         <input
           id="minPrice"
           v-model.number="localFilters.minPrice"
           type="number"
-          placeholder="0"
+          :placeholder="messages.filters.minPrice.placeholder"
           class="filter-input"
           step="0.01"
         />
       </div>
 
       <div class="filter-group">
-        <label for="maxPrice">Max. ár</label>
+        <label for="maxPrice">{{ messages.filters.maxPrice.label }}</label>
         <input
           id="maxPrice"
           v-model.number="localFilters.maxPrice"
           type="number"
-          placeholder="∞"
+          :placeholder="messages.filters.maxPrice.placeholder"
           class="filter-input"
           step="0.01"
         />
       </div>
 
       <div class="filter-group">
-        <label for="minPotential">Min. potenciál (%)</label>
+        <label for="minPotential">{{ messages.filters.minPotential.label }}</label>
         <input
           id="minPotential"
           v-model.number="localFilters.minPotential"
           type="number"
-          placeholder="-∞"
+          :placeholder="messages.filters.minPotential.placeholder"
           class="filter-input"
           step="0.1"
         />
       </div>
 
       <div class="filter-group">
-        <label for="maxPotential">Max. potenciál (%)</label>
+        <label for="maxPotential">{{ messages.filters.maxPotential.label }}</label>
         <input
           id="maxPotential"
           v-model.number="localFilters.maxPotential"
           type="number"
-          placeholder="∞"
+          :placeholder="messages.filters.maxPotential.placeholder"
           class="filter-input"
           step="0.1"
         />
       </div>
 
       <div class="filter-group market-cap-group">
-        <label>Piaci érték</label>
+        <label>{{ messages.filters.marketCap.label }}</label>
         <MarketCapSelect
           v-model="localFilters.marketCaps"
         />
@@ -100,6 +100,9 @@
 import { watch, reactive } from 'vue'
 import type { StockFilters } from '@/types/Stock'
 import MarketCapSelect from '@/components/MarketCapSelect.vue'
+import { useMessages } from '@/locales/useMessages'
+
+const { messages } = useMessages()
 
 interface Props {
   filters: StockFilters

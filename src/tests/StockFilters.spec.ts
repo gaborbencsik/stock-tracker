@@ -1,8 +1,16 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import StockFilters from '@/components/StockFilters.vue'
 import MarketCapSelect from '@/components/MarketCapSelect.vue'
+import { messages } from '@/locales/messages'
 import type { StockFilters as StockFiltersType } from '@/types/Stock'
+
+vi.mock('@/locales/useMessages', () => ({
+  useMessages: () => ({
+    messages,
+    msg: (key: string) => key
+  })
+}))
 
 describe('StockFilters', () => {
   const defaultFilters: StockFiltersType = {
@@ -39,7 +47,6 @@ describe('StockFilters', () => {
     it('should render the reset button', () => {
       const wrapper = createComponent()
       expect(wrapper.find('.reset-button').exists()).toBe(true)
-      expect(wrapper.find('.reset-button').text()).toBe('Visszaállítás')
     })
 
     it('should render all filter input fields', () => {

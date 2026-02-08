@@ -19,7 +19,7 @@ export default defineConfig({
         'node_modules/',
         'src/tests/',
         '*.config.*',
-        'src/main.ts'
+        'src/main.ts',
       ],
       include: ['src/**/*.{ts,vue}']
     }

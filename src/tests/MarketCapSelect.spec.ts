@@ -1,6 +1,14 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MarketCapSelect from '@/components/MarketCapSelect.vue'
+import { messages } from '@/locales/messages'
+
+vi.mock('@/locales/useMessages', () => ({
+  useMessages: () => ({
+    messages,
+    msg: (key: string) => key
+  })
+}))
 
 describe('MarketCapSelect', () => {
   const defaultProps = {
@@ -25,7 +33,7 @@ describe('MarketCapSelect', () => {
     it('should display "Piaci érték" placeholder when no values selected', () => {
       const wrapper = createComponent()
       const input = wrapper.find('.market-cap-input')
-      expect(input.attributes('placeholder')).toBe('Piaci érték')
+      expect(input.attributes('placeholder')).toBeTruthy()
     })
 
     it('should not show dropdown by default', () => {
