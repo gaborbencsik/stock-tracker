@@ -1,0 +1,329 @@
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
+import StockTable from '@/components/StockTable.vue'
+import type { Stock } from '@/types/Stock'
+
+describe('StockTable', () => {
+  const mockStocks: Stock[] = [
+    {
+      id: 1,
+      ticker: 'AAPL',
+      name: 'Apple Inc.',
+      stock_exchange: 'NASDAQ',
+      currency: 'USD',
+      entry_price: 175.50,
+      uplift_potential: 14.2,
+      six_months_price_target: 195.00,
+      twelve_months_price_target: 210.00,
+      one_month_highest_price: 182.50,
+      two_months_highest_price: 185.30,
+      three_months_highest_price: 187.20,
+      six_months_highest_price: 190.50,
+      twelve_months_highest_price: 195.00,
+      highest_price: 198.23,
+      notes: 'Test notes',
+      links: 'https://investor.apple.com',
+      last_modified: '2026-02-08T10:30:00Z',
+      created_at: '2026-01-15T14:22:00Z'
+    },
+    {
+      id: 2,
+      ticker: 'MSFT',
+      name: 'Microsoft Corporation',
+      stock_exchange: 'NASDAQ',
+      currency: 'USD',
+      entry_price: 380.00,
+      uplift_potential: 18.5,
+      six_months_price_target: 425.00,
+      twelve_months_price_target: 450.00,
+      one_month_highest_price: 390.20,
+      two_months_highest_price: 395.50,
+      three_months_highest_price: 398.75,
+      six_months_highest_price: 405.00,
+      twelve_months_highest_price: 410.30,
+      highest_price: 415.50,
+      notes: 'Microsoft notes',
+      links: 'https://www.microsoft.com/investor',
+      last_modified: '2026-02-07T15:45:00Z',
+      created_at: '2026-01-20T09:15:00Z'
+    }
+  ]
+
+  describe('rendering', () => {
+    it('should render table when stocks are provided', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.find('.stocks-table').exists()).toBe(true)
+    })
+
+    it('should display empty state when no stocks', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: []
+        }
+      })
+
+      expect(wrapper.find('.empty-state').exists()).toBe(true)
+      expect(wrapper.text()).toContain('Nincs megjeleníthető részvény')
+    })
+
+    it('should render correct number of rows', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const rows = wrapper.findAll('.stock-row')
+      expect(rows.length).toBe(mockStocks.length)
+    })
+
+    it('should display ticker in each row', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('AAPL')
+      expect(wrapper.text()).toContain('MSFT')
+    })
+
+    it('should display stock name in each row', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('Apple Inc.')
+      expect(wrapper.text()).toContain('Microsoft Corporation')
+    })
+
+    it('should display entry price with currency', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('175.50 USD')
+      expect(wrapper.text()).toContain('380.00 USD')
+    })
+
+    it('should display uplift potential with percentage', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('14.2%')
+      expect(wrapper.text()).toContain('18.5%')
+    })
+
+    it('should display created_at date', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('2026-01-15')
+      expect(wrapper.text()).toContain('2026-01-20')
+    })
+
+    it('should render details button for each stock', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const buttons = wrapper.findAll('.details-button')
+      expect(buttons.length).toBe(mockStocks.length)
+    })
+  })
+
+  describe('sorting', () => {
+    it('should sort by ticker when ticker header is clicked', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      // First verify default ascending order
+      let rows = wrapper.findAll('.stock-row')
+      let firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('AAPL')
+
+      const headers = wrapper.findAll('th.sortable')
+      const tickerHeader = headers[0]
+
+      // Click to toggle to descending
+      await tickerHeader.trigger('click')
+      await nextTick()
+
+      rows = wrapper.findAll('.stock-row')
+      firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('MSFT')
+    })
+
+    it('should toggle sort order when clicking same header twice', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const headers = wrapper.findAll('th.sortable')
+      const tickerHeader = headers[0]
+
+      // First verify default ascending order
+      let rows = wrapper.findAll('.stock-row')
+      let firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('AAPL')
+
+      // First click - toggle to descending
+      await tickerHeader.trigger('click')
+      await nextTick()
+      rows = wrapper.findAll('.stock-row')
+      firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('MSFT')
+
+      // Second click - toggle back to ascending
+      await tickerHeader.trigger('click')
+      await nextTick()
+      rows = wrapper.findAll('.stock-row')
+      firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('AAPL')
+    })
+
+    it('should display sort indicator', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const headers = wrapper.findAll('th.sortable')
+      await headers[0].trigger('click')
+
+      expect(wrapper.find('.sort-indicator').exists()).toBe(true)
+    })
+
+    it('should sort by price numerically', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const headers = wrapper.findAll('th.sortable')
+      const priceHeader = headers[3] // entry_price column
+
+      await priceHeader.trigger('click')
+
+      const rows = wrapper.findAll('.stock-row')
+      const firstTicker = rows[0].find('.ticker-badge')?.text()
+      expect(firstTicker).toBe('AAPL') // Lower price
+    })
+  })
+
+  describe('interactions', () => {
+    it('should emit show-details event when details button is clicked', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const detailsButton = wrapper.find('.details-button')
+      await detailsButton.trigger('click')
+
+      expect(wrapper.emitted('show-details')).toBeTruthy()
+      expect(wrapper.emitted('show-details')?.[0]).toEqual([mockStocks[0]])
+    })
+
+    it('should emit correct stock when different details buttons are clicked', async () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const detailsButtons = wrapper.findAll('.details-button')
+      
+      await detailsButtons[0].trigger('click')
+      expect(wrapper.emitted('show-details')?.[0]).toEqual([mockStocks[0]])
+
+      await detailsButtons[1].trigger('click')
+      expect(wrapper.emitted('show-details')?.[1]).toEqual([mockStocks[1]])
+    })
+  })
+
+  describe('potential badge styling', () => {
+    it('should apply positive class for positive potential', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const potentialBadges = wrapper.findAll('.potential-badge')
+      expect(potentialBadges[0].classes()).toContain('positive')
+      expect(potentialBadges[1].classes()).toContain('positive')
+    })
+
+    it('should apply negative class for negative potential', () => {
+      const negativeStock: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'TEST',
+        uplift_potential: -5.3
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [negativeStock]
+        }
+      })
+
+      const potentialBadge = wrapper.find('.potential-badge')
+      expect(potentialBadge.classes()).toContain('negative')
+    })
+
+    it('should display minus sign for negative potential', () => {
+      const negativeStock: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'TEST',
+        uplift_potential: -5.3
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [negativeStock]
+        }
+      })
+
+      expect(wrapper.text()).toContain('-5.3%')
+    })
+
+    it('should display plus sign for positive potential', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('+14.2%')
+    })
+  })
+})
