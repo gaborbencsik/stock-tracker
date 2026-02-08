@@ -6,7 +6,6 @@
     </div>
 
     <div class="filters-grid">
-      <!-- Search -->
       <div class="filter-group">
         <label for="search">Keresés (Ticker vagy Név)</label>
         <input
@@ -18,7 +17,6 @@
         />
       </div>
 
-      <!-- Exchange -->
       <div class="filter-group">
         <label for="exchange">Tőzsde</label>
         <select id="exchange" v-model="localFilters.exchange" class="filter-select">
@@ -40,7 +38,6 @@
         </select>
       </div>
 
-      <!-- Price Range -->
       <div class="filter-group">
         <label for="minPrice">Min. ár</label>
         <input
@@ -65,7 +62,6 @@
         />
       </div>
 
-      <!-- Potential Range -->
       <div class="filter-group">
         <label for="minPotential">Min. potenciál (%)</label>
         <input
