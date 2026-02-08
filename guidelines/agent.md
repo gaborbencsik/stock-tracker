@@ -148,7 +148,7 @@ A generált kód legyen:
 - Tesztnevek:
   - írják le az üzleti szabályt
   - ne az implementációt
-
+- Ha repetitív teszteknél legyen data provider
 ---
 
 ### Mockolási szabályok (Vitest)
