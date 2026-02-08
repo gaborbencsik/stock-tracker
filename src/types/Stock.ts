@@ -4,6 +4,7 @@ export interface Stock {
   name: string
   stock_exchange: string
   currency: string
+  market_cap: 'small' | 'mid' | 'large'
   entry_price: number
   uplift_potential: number
   six_months_price_target: number | null

@@ -1,5 +1,75 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useStocks } from '@/composables/useStocks'
+import type { Stock } from '@/types/Stock'
+
+const mockStocks: Stock[] = [
+  {
+    id: 1,
+    ticker: 'SAX',
+    name: 'Ströer SE & Co. KGaA',
+    stock_exchange: 'Frankfurt (XETRA)',
+    currency: 'EUR',
+    market_cap: 'mid',
+    entry_price: 33.2,
+    uplift_potential: 69.7,
+    six_months_price_target: null,
+    twelve_months_price_target: 56.26,
+    one_month_highest_price: null,
+    two_months_highest_price: null,
+    three_months_highest_price: null,
+    six_months_highest_price: null,
+    twelve_months_highest_price: null,
+    highest_price: null,
+    notes: 'Test stock 1',
+    links: 'https://example.com',
+    last_modified: '2026-02-08',
+    created_at: '2026-02-08'
+  },
+  {
+    id: 2,
+    ticker: 'IMCD',
+    name: 'IMCD N.V.',
+    stock_exchange: 'Euronext Amsterdam',
+    currency: 'EUR',
+    market_cap: 'mid',
+    entry_price: 87.3,
+    uplift_potential: 29.9,
+    six_months_price_target: null,
+    twelve_months_price_target: 113.43,
+    one_month_highest_price: null,
+    two_months_highest_price: null,
+    three_months_highest_price: null,
+    six_months_highest_price: null,
+    twelve_months_highest_price: null,
+    highest_price: null,
+    notes: 'Test stock 2',
+    links: 'https://example.com',
+    last_modified: '2026-02-08',
+    created_at: '2026-02-08'
+  },
+  {
+    id: 3,
+    ticker: 'ARCAD',
+    name: 'Arcadis N.V.',
+    stock_exchange: 'Euronext Amsterdam',
+    currency: 'EUR',
+    market_cap: 'mid',
+    entry_price: 37.5,
+    uplift_potential: 45.0,
+    six_months_price_target: null,
+    twelve_months_price_target: 54.5,
+    one_month_highest_price: null,
+    two_months_highest_price: null,
+    three_months_highest_price: null,
+    six_months_highest_price: null,
+    twelve_months_highest_price: null,
+    highest_price: null,
+    notes: 'Test stock 3',
+    links: 'https://example.com',
+    last_modified: '2026-02-08',
+    created_at: '2026-02-08'
+  }
+]
 
 describe('useStocks', () => {
   let stocksComposable: ReturnType<typeof useStocks>
@@ -40,88 +110,89 @@ describe('useStocks', () => {
       expect(firstStock).toHaveProperty('currency')
       expect(firstStock).toHaveProperty('entry_price')
       expect(firstStock).toHaveProperty('uplift_potential')
+      expect(firstStock).toHaveProperty('market_cap')
     })
   })
 
   describe('filters', () => {
-    beforeEach(async () => {
-      await stocksComposable.loadStocks()
+    beforeEach(() => {
+      stocksComposable.stocks.value = mockStocks
     })
 
     it('should filter stocks by search term (ticker)', () => {
-      stocksComposable.filters.value.search = 'AAPL'
+      stocksComposable.filters.value.search = 'SAX'
       
       const filtered = stocksComposable.filteredStocks.value
       
       expect(filtered.length).toBeGreaterThan(0)
-      expect(filtered.every(s => s.ticker.includes('AAPL'))).toBe(true)
+      expect(filtered.every(s => s.ticker.includes('SAX'))).toBe(true)
     })
 
     it('should filter stocks by search term (name)', () => {
-      stocksComposable.filters.value.search = 'Apple'
+      stocksComposable.filters.value.search = 'Ströer'
       
       const filtered = stocksComposable.filteredStocks.value
       
       expect(filtered.length).toBeGreaterThan(0)
-      expect(filtered.some(s => s.name.includes('Apple'))).toBe(true)
+      expect(filtered.some(s => s.name.includes('Ströer'))).toBe(true)
     })
 
     it('should filter stocks by exchange', () => {
-      stocksComposable.filters.value.exchange = 'NASDAQ'
+      stocksComposable.filters.value.exchange = 'Frankfurt (XETRA)'
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.stock_exchange === 'NASDAQ')).toBe(true)
+      expect(filtered.every(s => s.stock_exchange === 'Frankfurt (XETRA)')).toBe(true)
     })
 
     it('should filter stocks by currency', () => {
-      stocksComposable.filters.value.currency = 'USD'
+      stocksComposable.filters.value.currency = 'EUR'
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.currency === 'USD')).toBe(true)
+      expect(filtered.every(s => s.currency === 'EUR')).toBe(true)
     })
 
     it('should filter stocks by minimum price', () => {
-      stocksComposable.filters.value.minPrice = 200
+      stocksComposable.filters.value.minPrice = 50
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.entry_price >= 200)).toBe(true)
+      expect(filtered.every(s => s.entry_price >= 50)).toBe(true)
     })
 
     it('should filter stocks by maximum price', () => {
-      stocksComposable.filters.value.maxPrice = 300
+      stocksComposable.filters.value.maxPrice = 80
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.entry_price <= 300)).toBe(true)
+      expect(filtered.every(s => s.entry_price <= 80)).toBe(true)
     })
 
     it('should filter stocks by minimum potential', () => {
-      stocksComposable.filters.value.minPotential = 15
+      stocksComposable.filters.value.minPotential = 30
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.uplift_potential >= 15)).toBe(true)
+      expect(filtered.every(s => s.uplift_potential >= 30)).toBe(true)
     })
 
     it('should filter stocks by maximum potential', () => {
-      stocksComposable.filters.value.maxPotential = 20
+      stocksComposable.filters.value.maxPotential = 50
       
       const filtered = stocksComposable.filteredStocks.value
       
-      expect(filtered.every(s => s.uplift_potential <= 20)).toBe(true)
+      expect(filtered.every(s => s.uplift_potential <= 50)).toBe(true)
     })
 
     it('should combine multiple filters', () => {
-      stocksComposable.filters.value.exchange = 'NASDAQ'
-      stocksComposable.filters.value.minPotential = 10
+      stocksComposable.filters.value.exchange = 'Frankfurt (XETRA)'
+      stocksComposable.filters.value.minPotential = 30
       
       const filtered = stocksComposable.filteredStocks.value
       
       expect(filtered.every(s => 
-        s.stock_exchange === 'NASDAQ' && s.uplift_potential >= 10
+        s.stock_exchange === 'Frankfurt (XETRA)' && s.uplift_potential >= 30
       )).toBe(true)
     })
 
@@ -135,8 +206,8 @@ describe('useStocks', () => {
   })
 
   describe('exchanges and currencies', () => {
-    beforeEach(async () => {
-      await stocksComposable.loadStocks()
+    beforeEach(() => {
+      stocksComposable.stocks.value = mockStocks
     })
 
     it('should return unique exchanges', () => {
@@ -169,15 +240,15 @@ describe('useStocks', () => {
   })
 
   describe('resetFilters', () => {
-    beforeEach(async () => {
-      await stocksComposable.loadStocks()
+    beforeEach(() => {
+      stocksComposable.stocks.value = mockStocks
     })
 
     it('should reset all filters to default values', () => {
       // Set some filters
-      stocksComposable.filters.value.search = 'AAPL'
-      stocksComposable.filters.value.exchange = 'NASDAQ'
-      stocksComposable.filters.value.minPrice = 100
+      stocksComposable.filters.value.search = 'SAX'
+      stocksComposable.filters.value.exchange = 'Frankfurt (XETRA)'
+      stocksComposable.filters.value.minPrice = 50
       
       // Reset
       stocksComposable.resetFilters()
@@ -192,7 +263,7 @@ describe('useStocks', () => {
     })
 
     it('should show all stocks after reset', () => {
-      stocksComposable.filters.value.search = 'AAPL'
+      stocksComposable.filters.value.search = 'SAX'
       
       const filteredBefore = stocksComposable.filteredStocks.value.length
       

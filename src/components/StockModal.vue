@@ -15,6 +15,7 @@
             <div class="stock-meta">
               <span class="exchange-tag">{{ stock.stock_exchange }}</span>
               <span class="currency-tag">{{ stock.currency }}</span>
+              <span class="market-cap-tag">{{ stock.market_cap }}</span>
             </div>
           </div>
 

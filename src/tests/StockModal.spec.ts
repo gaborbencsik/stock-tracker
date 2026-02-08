@@ -10,6 +10,7 @@ describe('StockModal', () => {
     name: 'Apple Inc.',
     stock_exchange: 'NASDAQ',
     currency: 'USD',
+    market_cap: 'large',
     entry_price: 175.50,
     uplift_potential: 14.2,
     six_months_price_target: 195.00,
@@ -343,6 +344,43 @@ describe('StockModal', () => {
 
       expect(wrapper.exists()).toBe(true)
       expect(wrapper.text()).toContain('N/A')
+    })
+  })
+
+  describe('market cap display', () => {
+    it('should display market cap information', () => {
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: mockStock,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('large')
+    })
+
+    it('should handle small market cap', () => {
+      const smallCapStock = { ...mockStock, market_cap: 'small' as const }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: smallCapStock,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('small')
+    })
+
+    it('should handle mid market cap', () => {
+      const midCapStock = { ...mockStock, market_cap: 'mid' as const }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: midCapStock,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('mid')
     })
   })
 })

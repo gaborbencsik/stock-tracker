@@ -31,6 +31,12 @@
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
+            <th @click="handleSort('market_cap')" class="sortable">
+              Market Cap
+              <span v-if="sortKey === 'market_cap'" class="sort-indicator">
+                {{ sortOrder === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
             <th @click="handleSort('entry_price')" class="sortable">
               Belépési ár
               <span v-if="sortKey === 'entry_price'" class="sort-indicator">
@@ -69,6 +75,7 @@
             </td>
             <td class="name-cell">{{ stock.name }}</td>
             <td>{{ stock.stock_exchange }}</td>
+            <td class="market-cap-cell">{{ stock.market_cap }}</td>
             <td class="price-cell">{{ formatPrice(stock.entry_price) }} {{ stock.currency }}</td>
             <td>
               <span 

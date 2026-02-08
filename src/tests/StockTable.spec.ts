@@ -12,6 +12,7 @@ describe('StockTable', () => {
       name: 'Apple Inc.',
       stock_exchange: 'NASDAQ',
       currency: 'USD',
+      market_cap: 'large',
       entry_price: 175.50,
       uplift_potential: 14.2,
       six_months_price_target: 195.00,
@@ -33,6 +34,7 @@ describe('StockTable', () => {
       name: 'Microsoft Corporation',
       stock_exchange: 'NASDAQ',
       currency: 'USD',
+      market_cap: 'large',
       entry_price: 380.00,
       uplift_potential: 18.5,
       six_months_price_target: 425.00,
@@ -324,6 +326,54 @@ describe('StockTable', () => {
       })
 
       expect(wrapper.text()).toContain('+14.2%')
+    })
+  })
+
+  describe('market cap display', () => {
+    it('should display market cap for each stock', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('large')
+    })
+
+    it('should display market cap for small cap stock', () => {
+      const smallCapStock = { ...mockStocks[0], market_cap: 'small' as const }
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [smallCapStock]
+        }
+      })
+
+      expect(wrapper.text()).toContain('small')
+    })
+
+    it('should display market cap for mid cap stock', () => {
+      const midCapStock = { ...mockStocks[0], market_cap: 'mid' as const }
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [midCapStock]
+        }
+      })
+
+      expect(wrapper.text()).toContain('mid')
+    })
+
+    it('should display different market caps for different stocks', () => {
+      const stocks: Stock[] = [
+        { ...mockStocks[0], market_cap: 'small' as const },
+        { ...mockStocks[1], market_cap: 'large' as const }
+      ]
+      const wrapper = mount(StockTable, {
+        props: { stocks }
+      })
+
+      const text = wrapper.text()
+      expect(text).toContain('small')
+      expect(text).toContain('large')
     })
   })
 })
