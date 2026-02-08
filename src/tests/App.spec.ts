@@ -95,31 +95,6 @@ describe('App', () => {
     })
   })
 
-  describe('summary cards', () => {
-    it('should render summary card section', () => {
-      const wrapper = mount(App)
-      expect(wrapper.find('.stocks-summary').exists()).toBe(true)
-    })
-
-    it('should display total stocks count', () => {
-      const wrapper = mount(App)
-      expect(wrapper.text()).toContain('Összes részvény')
-    })
-
-    it('should display filtered results count', () => {
-      const wrapper = mount(App)
-      expect(wrapper.text()).toContain('Szűrt eredmények')
-    })
-
-
-
-    it('should render two summary cards', () => {
-      const wrapper = mount(App)
-      const summaryCards = wrapper.findAll('.summary-card')
-      expect(summaryCards).toHaveLength(2)
-    })
-  })
-
   describe('loading state', () => {
     it('should not show loading overlay when not loading', () => {
       const wrapper = mount(App)
@@ -169,12 +144,6 @@ describe('App', () => {
       const wrapper = mount(App)
       expect(wrapper.find('.container').exists()).toBe(true)
     })
-
-    it('should have summary value styling', () => {
-      const wrapper = mount(App)
-      const summaryValues = wrapper.findAll('.summary-value')
-      expect(summaryValues.length).toBeGreaterThan(0)
-    })
   })
 
   describe('semantic structure', () => {
@@ -202,27 +171,9 @@ describe('App', () => {
       const container = wrapper.find('.container')
       
       expect(container.findComponent(StockFilters).exists()).toBe(true)
-      expect(container.find('.stocks-summary').exists()).toBe(true)
       expect(container.findComponent(StockTable).exists()).toBe(true)
     })
   })
 
-  describe('data display', () => {
-    it('should display summary information', () => {
-      const wrapper = mount(App)
-      const summaryLabels = wrapper.findAll('.summary-label')
 
-      expect(summaryLabels.length).toBeGreaterThan(0)
-      summaryLabels.forEach(label => {
-        expect(label.text()).toBeTruthy()
-      })
-    })
-
-    it('should display summary values', () => {
-      const wrapper = mount(App)
-      const summaryValues = wrapper.findAll('.summary-value')
-
-      expect(summaryValues.length).toBeGreaterThan(0)
-    })
-  })
 })

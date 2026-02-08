@@ -23,17 +23,6 @@
           @reset="resetFilters"
         />
 
-        <div class="stocks-summary">
-          <div class="summary-card">
-            <span class="summary-label">Összes részvény</span>
-            <span class="summary-value">{{ stocks.length }}</span>
-          </div>
-          <div class="summary-card">
-            <span class="summary-label">Szűrt eredmények</span>
-            <span class="summary-value">{{ filteredStocks.length }}</span>
-          </div>
-        </div>
-
         <StockTable
           :stocks="filteredStocks"
           @show-details="showStockDetails"
@@ -62,7 +51,6 @@ import { useStocks } from './composables/useStocks'
 import type { Stock, StockFilters as StockFiltersType } from './types/Stock'
 
 const {
-  stocks,
   loading,
   filters,
   filteredStocks,
