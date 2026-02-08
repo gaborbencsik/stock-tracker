@@ -6,14 +6,14 @@ export interface Stock {
   currency: string
   entry_price: number
   uplift_potential: number
-  six_months_price_target: number
-  twelve_months_price_target: number
-  one_month_highest_price: number
-  two_months_highest_price: number
-  three_months_highest_price: number
-  six_months_highest_price: number
-  twelve_months_highest_price: number
-  highest_price: number
+  six_months_price_target: number | null
+  twelve_months_price_target: number | null
+  one_month_highest_price: number | null
+  two_months_highest_price: number | null
+  three_months_highest_price: number | null
+  six_months_highest_price: number | null
+  twelve_months_highest_price: number | null
+  highest_price: number | null
   notes: string
   links: string
   last_modified: string

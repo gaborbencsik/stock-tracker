@@ -286,4 +286,63 @@ describe('StockModal', () => {
       expect(firstLink.attributes('rel')).toBe('noopener noreferrer')
     })
   })
+
+  describe('null price targets handling', () => {
+    it('should render correctly with null six_months_price_target', () => {
+      const stockWithNullTarget = { ...mockStock, six_months_price_target: null }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: stockWithNullTarget,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('N/A')
+      expect(wrapper.exists()).toBe(true)
+    })
+
+    it('should render correctly with null twelve_months_price_target', () => {
+      const stockWithNullTarget = { ...mockStock, twelve_months_price_target: null }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: stockWithNullTarget,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('N/A')
+    })
+
+    it('should render correctly with null highest_price', () => {
+      const stockWithNullHighest = { ...mockStock, highest_price: null }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: stockWithNullHighest,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('Mindenkori legmagasabb')
+      expect(wrapper.text()).toContain('N/A')
+    })
+
+    it('should render correctly with multiple null price fields', () => {
+      const stockWithMultipleNulls = {
+        ...mockStock,
+        six_months_price_target: null,
+        twelve_months_price_target: null,
+        one_month_highest_price: null,
+        three_months_highest_price: null
+      }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: stockWithMultipleNulls,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.exists()).toBe(true)
+      expect(wrapper.text()).toContain('N/A')
+    })
+  })
 })

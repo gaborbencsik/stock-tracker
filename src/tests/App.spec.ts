@@ -63,8 +63,13 @@ describe('App', () => {
   })
 
   describe('component composition', () => {
-    it('should render StockFilters component', () => {
+    it('should render StockFilters component when toggled', async () => {
       const wrapper = mount(App)
+      
+      // Open filters
+      await wrapper.find('.filters-toggle-btn').trigger('click')
+      await wrapper.vm.$nextTick()
+      
       expect(wrapper.findComponent(StockFilters).exists()).toBe(true)
     })
 
@@ -78,10 +83,14 @@ describe('App', () => {
       expect(wrapper.findComponent(StockModal).exists()).toBe(true)
     })
 
-    it('should pass filters to StockFilters component', () => {
+    it('should pass filters to StockFilters component when visible', async () => {
       const wrapper = mount(App)
-      const stockFilters = wrapper.findComponent(StockFilters)
       
+      // Open filters
+      await wrapper.find('.filters-toggle-btn').trigger('click')
+      await wrapper.vm.$nextTick()
+      
+      const stockFilters = wrapper.findComponent(StockFilters)
       expect(stockFilters.props('filters')).toBeDefined()
       expect(stockFilters.props('exchanges')).toBeDefined()
       expect(stockFilters.props('currencies')).toBeDefined()
@@ -170,10 +179,101 @@ describe('App', () => {
       const wrapper = mount(App)
       const container = wrapper.find('.container')
       
-      expect(container.findComponent(StockFilters).exists()).toBe(true)
       expect(container.findComponent(StockTable).exists()).toBe(true)
     })
   })
 
+  describe('filters toggle', () => {
+    it('should render the filters toggle button', () => {
+      const wrapper = mount(App)
+      expect(wrapper.find('.filters-toggle-btn').exists()).toBe(true)
+    })
+
+    it('should display "Szűrők megjelenítése" text when filters are hidden', () => {
+      const wrapper = mount(App)
+      expect(wrapper.find('.filters-toggle-btn').text()).toContain('Szűrők megjelenítése')
+    })
+
+    it('should hide StockFilters component by default', () => {
+      const wrapper = mount(App)
+      expect(wrapper.findComponent(StockFilters).exists()).toBe(false)
+    })
+
+    it('should show StockFilters when toggle button is clicked', async () => {
+      const wrapper = mount(App)
+      const toggleBtn = wrapper.find('.filters-toggle-btn')
+      
+      await toggleBtn.trigger('click')
+      await wrapper.vm.$nextTick()
+      
+      expect(wrapper.findComponent(StockFilters).exists()).toBe(true)
+    })
+
+    it('should display "Szűrők elrejtése" text when filters are visible', async () => {
+      const wrapper = mount(App)
+      await wrapper.find('.filters-toggle-btn').trigger('click')
+      await wrapper.vm.$nextTick()
+      
+      expect(wrapper.find('.filters-toggle-btn').text()).toContain('Szűrők elrejtése')
+    })
+
+    it('should toggle filters visibility when button is clicked multiple times', async () => {
+      const wrapper = mount(App)
+      const toggleBtn = wrapper.find('.filters-toggle-btn')
+      
+      // First click - open
+      await toggleBtn.trigger('click')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findComponent(StockFilters).exists()).toBe(true)
+      
+      // Second click - close
+      await toggleBtn.trigger('click')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findComponent(StockFilters).exists()).toBe(false)
+    })
+
+    it('should display active filters count badge', async () => {
+      mockFilters.value = {
+        search: 'Apple',
+        exchange: 'NASDAQ',
+        currency: '',
+        minPrice: null,
+        maxPrice: null,
+        minPotential: null,
+        maxPotential: null
+      }
+      
+      const wrapper = mount(App)
+      const badge = wrapper.find('.filter-badge')
+      
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toBe('2')
+      
+      mockFilters.value = {
+        search: '',
+        exchange: '',
+        currency: '',
+        minPrice: null,
+        maxPrice: null,
+        minPotential: null,
+        maxPotential: null
+      }
+    })
+
+    it('should not display badge when no filters are active', () => {
+      mockFilters.value = {
+        search: '',
+        exchange: '',
+        currency: '',
+        minPrice: null,
+        maxPrice: null,
+        minPotential: null,
+        maxPotential: null
+      }
+      
+      const wrapper = mount(App)
+      expect(wrapper.find('.filter-badge').exists()).toBe(false)
+    })
+  })
 
 })

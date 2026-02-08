@@ -15,13 +15,37 @@
 
     <main class="app-main">
       <div class="container">
-        <StockFilters
-          :filters="filters"
-          :exchanges="exchanges"
-          :currencies="currencies"
-          @update:filters="updateFilters"
-          @reset="resetFilters"
-        />
+        <div class="filters-toggle-container">
+          <button class="filters-toggle-btn" @click="toggleFilters">
+            <svg 
+              class="toggle-icon" 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2"
+              :style="{ transform: filtersVisible ? 'rotate(180deg)' : 'rotate(0deg)' }"
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+            {{ filtersVisible ? 'Szűrők elrejtése' : 'Szűrők megjelenítése' }}
+            <span v-if="activeFiltersCount > 0" class="filter-badge">
+              {{ activeFiltersCount }}
+            </span>
+          </button>
+        </div>
+
+        <Transition name="slide-fade">
+          <StockFilters
+            v-if="filtersVisible"
+            :filters="filters"
+            :exchanges="exchanges"
+            :currencies="currencies"
+            @update:filters="updateFilters"
+            @reset="resetFilters"
+          />
+        </Transition>
 
         <StockTable
           :stocks="filteredStocks"
@@ -43,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import StockTable from './components/StockTable.vue'
 import StockModal from './components/StockModal.vue'
 import StockFilters from './components/StockFilters.vue'
@@ -62,24 +86,44 @@ const {
 
 const selectedStock = ref<Stock | null>(null)
 const isModalOpen = ref(false)
+const filtersVisible = ref(false)
 
-const showStockDetails = (stock: Stock) => {
+const toggleFilters = (): void => {
+  filtersVisible.value = !filtersVisible.value
+}
+
+const activeFiltersCount = computed((): number => {
+  const { search, exchange, currency, minPrice, maxPrice, minPotential, maxPotential } = filters.value
+  let count = 0
+  
+  if (search) count++
+  if (exchange) count++
+  if (currency) count++
+  if (minPrice !== null) count++
+  if (maxPrice !== null) count++
+  if (minPotential !== null) count++
+  if (maxPotential !== null) count++
+  
+  return count
+})
+
+const showStockDetails = (stock: Stock): void => {
   selectedStock.value = stock
   isModalOpen.value = true
 }
 
-const closeModal = () => {
+const closeModal = (): void => {
   isModalOpen.value = false
   setTimeout(() => {
     selectedStock.value = null
   }, 300)
 }
 
-const updateFilters = (newFilters: StockFiltersType) => {
+const updateFilters = (newFilters: StockFiltersType): void => {
   Object.assign(filters.value, newFilters)
 }
 
-onMounted(() => {
+onMounted((): void => {
   loadStocks()
 })
 </script>

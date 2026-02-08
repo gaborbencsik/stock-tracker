@@ -155,7 +155,8 @@ const parsedLinks = computed(() => {
     })
 })
 
-const formatPrice = (price: number): string => {
+const formatPrice = (price: number | null): string => {
+  if (price === null) return 'N/A'
   return price.toFixed(2)
 }
 
