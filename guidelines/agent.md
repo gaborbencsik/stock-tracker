@@ -107,6 +107,16 @@ A generált kód legyen:
 
 ---
 
+### Tesztfuttatás (kötelező lépés)
+
+- Minden kódváltoztatás után **kötelező lefuttatni az összes tesztet**
+- Nem elegendő csak:
+  - az adott fájlhoz tartozó teszteket
+  - vagy az újonnan írt teszteket futtatni
+- A teljes teszt suite-nek zöldnek kell lennie
+
+---
+
 ### TDD munkafolyamat (szigorúan követendő)
 
 1. **Red**
@@ -211,6 +221,8 @@ A generált kód legyen:
 - Ha feltételezést teszel:
   - dokumentáld szövegesen
 - Preferáld az olvashatóságot a „trükkös” megoldásokkal szemben
+- A kód csak akkor tekinthető késznek, ha az összes teszt sikeresen lefut
+
 
 ---
 
@@ -222,6 +234,10 @@ A generált kód legyen:
   - duplikációt
   - hosszú függvényeket
   - SOLID és Clean Code sértéseket
+  - az összes tesztet le kell futtatni
+  - minden tesztnek változtatás nélkül zöldnek kell maradnia
+- Ha egy refaktor tesztet tör meg, az hibás refaktor
+
 
 ---
 
