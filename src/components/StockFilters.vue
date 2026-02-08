@@ -85,13 +85,21 @@
           step="0.1"
         />
       </div>
+
+      <div class="filter-group market-cap-group">
+        <label>Piaci érték</label>
+        <MarketCapSelect
+          v-model="localFilters.marketCaps"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watch, reactive } from 'vue'
 import type { StockFilters } from '@/types/Stock'
+import MarketCapSelect from '@/components/MarketCapSelect.vue'
 
 interface Props {
   filters: StockFilters
@@ -107,12 +115,12 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const localFilters = { ...props.filters }
+const localFilters = reactive<StockFilters>({ ...props.filters })
 
 watch(
   () => localFilters,
   (newFilters) => {
-    emit('update:filters', { ...newFilters })
+    emit('update:filters', newFilters)
   },
   { deep: true }
 )

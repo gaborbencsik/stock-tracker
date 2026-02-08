@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import StockFilters from '@/components/StockFilters.vue'
+import MarketCapSelect from '@/components/MarketCapSelect.vue'
 import type { StockFilters as StockFiltersType } from '@/types/Stock'
 
 describe('StockFilters', () => {
@@ -11,7 +12,8 @@ describe('StockFilters', () => {
     minPrice: null,
     maxPrice: null,
     minPotential: null,
-    maxPotential: null
+    maxPotential: null,
+    marketCaps: []
   }
 
   const mockExchanges = ['NASDAQ', 'NYSE']
@@ -271,6 +273,52 @@ describe('StockFilters', () => {
       inputIds.forEach(id => {
         expect(wrapper.find(`#${id}`).exists()).toBe(true)
       })
+    })
+
+    it('should render market cap component', () => {
+      const wrapper = createComponent()
+
+      expect(wrapper.findComponent(MarketCapSelect).exists()).toBe(true)
+    })
+
+    it('should have all three market cap options available', async () => {
+      const wrapper = createComponent()
+      const marketCapSelect = wrapper.findComponent(MarketCapSelect)
+
+      expect(marketCapSelect.exists()).toBe(true)
+    })
+  })
+
+  describe('market cap filtering', () => {
+    it('should update filters when market cap value changes', async () => {
+      const wrapper = createComponent()
+      const marketCapSelect = wrapper.findComponent(MarketCapSelect)
+
+      await marketCapSelect.vm.$emit('update:modelValue', ['small'])
+
+      expect(wrapper.emitted('update:filters')).toBeTruthy()
+    })
+
+    it('should support multiple market cap selections', async () => {
+      const wrapper = createComponent()
+      const marketCapSelect = wrapper.findComponent(MarketCapSelect)
+
+      await marketCapSelect.vm.$emit('update:modelValue', ['small', 'large'])
+
+      const emitted = wrapper.emitted('update:filters')
+      expect(emitted).toBeTruthy()
+      expect((emitted![emitted!.length - 1][0] as any).marketCaps.length).toBe(2)
+    })
+
+    it('should clear market cap selection', async () => {
+      const wrapper = createComponent()
+      const marketCapSelect = wrapper.findComponent(MarketCapSelect)
+
+      await marketCapSelect.vm.$emit('update:modelValue', ['small', 'mid', 'large'])
+      await marketCapSelect.vm.$emit('update:modelValue', [])
+
+      const emitted = wrapper.emitted('update:filters')
+      expect((emitted![emitted!.length - 1][0] as any).marketCaps.length).toBe(0)
     })
   })
 })

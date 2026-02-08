@@ -203,6 +203,33 @@ describe('useStocks', () => {
       
       expect(filtered.length).toBe(0)
     })
+
+    it('should filter stocks by market cap', () => {
+      stocksComposable.filters.value.marketCaps = ['mid']
+      
+      const filtered = stocksComposable.filteredStocks.value
+      
+      expect(filtered.length).toBeGreaterThan(0)
+      expect(filtered.every(s => s.market_cap === 'mid')).toBe(true)
+    })
+
+    it('should filter stocks by multiple market caps', () => {
+      stocksComposable.filters.value.marketCaps = ['small', 'large']
+      
+      const filtered = stocksComposable.filteredStocks.value
+      
+      expect(filtered.every(s => 
+        s.market_cap === 'small' || s.market_cap === 'large'
+      )).toBe(true)
+    })
+
+    it('should return all stocks when no market cap filter applied', () => {
+      stocksComposable.filters.value.marketCaps = []
+      
+      const filtered = stocksComposable.filteredStocks.value
+      
+      expect(filtered.length).toBe(mockStocks.length)
+    })
   })
 
   describe('exchanges and currencies', () => {
@@ -260,6 +287,7 @@ describe('useStocks', () => {
       expect(stocksComposable.filters.value.maxPrice).toBe(null)
       expect(stocksComposable.filters.value.minPotential).toBe(null)
       expect(stocksComposable.filters.value.maxPotential).toBe(null)
+      expect(stocksComposable.filters.value.marketCaps).toEqual([])
     })
 
     it('should show all stocks after reset', () => {

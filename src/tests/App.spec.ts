@@ -14,7 +14,8 @@ const mockFilters = ref({
   minPrice: null,
   maxPrice: null,
   minPotential: null,
-  maxPotential: null
+  maxPotential: null,
+  marketCaps: []
 })
 const mockFilteredStocks = ref([])
 
@@ -240,7 +241,8 @@ describe('App', () => {
         minPrice: null,
         maxPrice: null,
         minPotential: null,
-        maxPotential: null
+        maxPotential: null,
+        marketCaps: []
       }
       
       const wrapper = mount(App)
@@ -256,7 +258,8 @@ describe('App', () => {
         minPrice: null,
         maxPrice: null,
         minPotential: null,
-        maxPotential: null
+        maxPotential: null,
+        marketCaps: []
       }
     })
 
@@ -268,7 +271,8 @@ describe('App', () => {
         minPrice: null,
         maxPrice: null,
         minPotential: null,
-        maxPotential: null
+        maxPotential: null,
+        marketCaps: []
       }
       
       const wrapper = mount(App)

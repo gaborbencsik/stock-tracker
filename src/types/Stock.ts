@@ -29,4 +29,5 @@ export interface StockFilters {
   maxPrice: number | null
   minPotential: number | null
   maxPotential: number | null
+  marketCaps: Array<'small' | 'mid' | 'large'>
 }

@@ -14,7 +14,8 @@ export function useStocks() {
     minPrice: null,
     maxPrice: null,
     minPotential: null,
-    maxPotential: null
+    maxPotential: null,
+    marketCaps: []
   })
 
   const loadStocks = async () => {
@@ -64,6 +65,10 @@ export function useStocks() {
         return false
       }
 
+      if (filters.value.marketCaps.length > 0 && !filters.value.marketCaps.includes(stock.market_cap)) {
+        return false
+      }
+
       return true
     })
   })
@@ -84,7 +89,8 @@ export function useStocks() {
       minPrice: null,
       maxPrice: null,
       minPotential: null,
-      maxPotential: null
+      maxPotential: null,
+      marketCaps: []
     }
   }
 

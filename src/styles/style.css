@@ -227,6 +227,23 @@ body {
   color: #9ca3af;
 }
 
+.market-cap-select {
+  min-height: 100px;
+  padding: 8px 12px;
+}
+
+.market-cap-select option {
+  padding: 8px;
+  background: white;
+  color: #4b5563;
+}
+
+.market-cap-select option:checked {
+  background: linear-gradient(#667eea, #667eea);
+  background-color: #667eea;
+  color: white;
+}
+
 /* Stock table */
 
 .table-container {
