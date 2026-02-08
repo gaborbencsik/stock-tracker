@@ -7,7 +7,7 @@ export const messages = {
   // Header
   header: {
     title: 'Under Value Radar',
-    subtitle: 'Személyes portfólió elemzés és nyomon követés'
+    subtitle: 'Alulértékelt részvények, feltérképezve mesterséges intelligencia segítségével.'
   },
 
   // Filters
