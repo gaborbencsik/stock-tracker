@@ -111,15 +111,12 @@ describe('App', () => {
       expect(wrapper.text()).toContain('Szűrt eredmények')
     })
 
-    it('should display average potential', () => {
-      const wrapper = mount(App)
-      expect(wrapper.text()).toContain('Átlag potenciál')
-    })
 
-    it('should render three summary cards', () => {
+
+    it('should render two summary cards', () => {
       const wrapper = mount(App)
       const summaryCards = wrapper.findAll('.summary-card')
-      expect(summaryCards).toHaveLength(3)
+      expect(summaryCards).toHaveLength(2)
     })
   })
 

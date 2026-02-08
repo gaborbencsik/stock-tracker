@@ -32,15 +32,6 @@
             <span class="summary-label">Szűrt eredmények</span>
             <span class="summary-value">{{ filteredStocks.length }}</span>
           </div>
-          <div class="summary-card">
-            <span class="summary-label">Átlag potenciál</span>
-            <span 
-              class="summary-value"
-              :class="averagePotential >= 0 ? 'positive' : 'negative'"
-            >
-              {{ averagePotential > 0 ? '+' : '' }}{{ averagePotential.toFixed(1) }}%
-            </span>
-          </div>
         </div>
 
         <StockTable
@@ -63,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import StockTable from './components/StockTable.vue'
 import StockModal from './components/StockModal.vue'
 import StockFilters from './components/StockFilters.vue'
@@ -83,12 +74,6 @@ const {
 
 const selectedStock = ref<Stock | null>(null)
 const isModalOpen = ref(false)
-
-const averagePotential = computed(() => {
-  if (filteredStocks.value.length === 0) return 0
-  const sum = filteredStocks.value.reduce((acc, stock) => acc + stock.uplift_potential, 0)
-  return sum / filteredStocks.value.length
-})
 
 const showStockDetails = (stock: Stock) => {
   selectedStock.value = stock
