@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.x
           cache: 'npm'
 
       - name: Install dependencies
@@ -39,12 +39,10 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: dist
-          path: dist/
-          retention-days: 1
+          path: 'dist'
 
   deploy:
     needs: test
@@ -57,20 +55,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: ./dist
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: './dist'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
