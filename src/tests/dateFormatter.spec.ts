@@ -3,55 +3,62 @@ import { formatDateOnly, formatDateTime, formatDateLocalized } from '@/utils/dat
 
 describe('dateFormatter', () => {
   describe('formatDateOnly', () => {
-    it('should format ISO date string to YYYY-MM-DD', () => {
-      const result = formatDateOnly('2026-01-15T14:22:00Z')
-      expect(result).toBe('2026-01-15')
+    const cases: [string, string][] = [
+      ['2026-01-15T14:22:00Z', '2026-01-15'],
+      ['2026-02-08T10:30:00Z', '2026-02-08'],
+      ['invalid-date', 'Invalid date'],
+      ['', 'Invalid date'],
+    ]
+    it.each(cases)('should format "%s" to "%s"', (input, expected) => {
+      expect(formatDateOnly(input)).toBe(expected)
     })
+  })
 
-    it('should handle different time zones', () => {
-      const result = formatDateOnly('2026-02-08T10:30:00Z')
-      expect(result).toBe('2026-02-08')
-    })
-
-    it('should return "Invalid date" for invalid input', () => {
-      const result = formatDateOnly('invalid-date')
-      expect(result).toBe('Invalid date')
-    })
-
-    it('should return "Invalid date" for empty string', () => {
-      const result = formatDateOnly('')
-      expect(result).toBe('Invalid date')
+  describe('formatDateOnly - line 14 isNaN check', () => {
+    it('should pass isNaN validation and return formatted date', () => {
+      const result = formatDateOnly('2026-12-25T10:30:00Z')
+      expect(result).toBe('2026-12-25')
+      expect(result).not.toBe('Invalid date')
     })
   })
 
   describe('formatDateTime', () => {
-    it('should format ISO date string to YYYY-MM-DD HH:MM', () => {
-      const result = formatDateTime('2026-01-15T14:22:00Z')
-      // Note: This might vary based on timezone, so we check format
+    const cases: [string, string | RegExp][] = [
+      ['2026-01-15T14:22:00Z', /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/],
+      ['not-a-date', 'Invalid date'],
+      ['2026-01-05T09:05:00Z', /^\d{4}-01-05 \d{2}:05$/],
+    ]
+    it.each(cases)('should format "%s" correctly', (input, expected) => {
+      const result = formatDateTime(input)
+      if (expected instanceof RegExp) {
+        expect(result).toMatch(expected)
+      } else {
+        expect(result).toBe(expected)
+      }
+    })
+  })
+
+  describe('formatDateTime - line 38 isNaN check', () => {
+    it('should pass isNaN validation and return formatted date with time', () => {
+      // Line 38: return 'Invalid date' after isNaN check passes for valid dates
+      const result = formatDateTime('2026-12-25T15:45:30Z')
       expect(result).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)
-    })
-
-    it('should return "Invalid date" for invalid input', () => {
-      const result = formatDateTime('not-a-date')
-      expect(result).toBe('Invalid date')
-    })
-
-    it('should pad single-digit values with zeros', () => {
-      const result = formatDateTime('2026-01-05T09:05:00Z')
-      expect(result).toMatch(/^\d{4}-01-05 \d{2}:05$/)
+      expect(result).not.toBe('Invalid date')
     })
   })
 
   describe('formatDateLocalized', () => {
-    it('should format date in localized format', () => {
-      const result = formatDateLocalized('2026-01-15T14:22:00Z')
-      expect(result).toContain('2026')
-      expect(result).toContain('15')
-    })
-
-    it('should return "Invalid date" for invalid input', () => {
-      const result = formatDateLocalized('invalid')
-      expect(result).toBe('Invalid date')
+    const cases: [string, string | string[]][] = [
+      ['2026-01-15T14:22:00Z', ['2026', '15']],
+      ['invalid', 'Invalid date'],
+    ]
+    it.each(cases)('should format "%s" correctly', (input, expected) => {
+      const result = formatDateLocalized(input)
+      if (Array.isArray(expected)) {
+        expected.forEach(part => expect(result).toContain(part))
+      } else {
+        expect(result).toBe(expected)
+      }
     })
   })
 })
