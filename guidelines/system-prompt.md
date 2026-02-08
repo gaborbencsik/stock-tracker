@@ -20,6 +20,7 @@ Testing rules:
 - Mock only infrastructure and external dependencies
 - Do not mock domain logic
 - Use Vitest (`describe`, `it`, `expect`, `vi`)
+- The whole test suite must be green after each modifications
 
 Coding rules:
 - Use explicit types everywhere
