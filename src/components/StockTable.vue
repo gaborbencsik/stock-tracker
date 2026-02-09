@@ -124,13 +124,22 @@ const emit = defineEmits<Emits>()
 type SortKey = keyof Stock
 type SortOrder = 'asc' | 'desc'
 
-const sortKey = ref<SortKey>('ticker')
-const sortOrder = ref<SortOrder>('asc')
+const sortKey = ref<SortKey>('created_at')
+const sortOrder = ref<SortOrder>('desc')
 
 const sortedStocks = computed(() => {
   const sorted = [...props.stocks].sort((a, b) => {
     const aVal = a[sortKey.value]
     const bVal = b[sortKey.value]
+
+    // Handle date fields (created_at, last_modified)
+    if (sortKey.value === 'created_at' || sortKey.value === 'last_modified') {
+      const aTime = new Date(aVal as string).getTime()
+      const bTime = new Date(bVal as string).getTime()
+      return sortOrder.value === 'asc' 
+        ? aTime - bTime
+        : bTime - aTime
+    }
 
     if (typeof aVal === 'string' && typeof bVal === 'string') {
       return sortOrder.value === 'asc' 
