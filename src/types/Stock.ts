@@ -17,6 +17,7 @@ export interface Stock {
   highest_price: number | null
   notes: string
   links: string
+  agent: string
   last_modified: string
   created_at: string
 }

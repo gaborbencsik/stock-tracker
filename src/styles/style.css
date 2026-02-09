@@ -681,6 +681,40 @@ h3 {
   height: 16px;
 }
 
+.ai-model-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ai-model-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.agent-chip {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.agent-chip:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
 .meta-section {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 24px;

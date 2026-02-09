@@ -31,6 +31,7 @@ describe('StockModal', () => {
     highest_price: 198.23,
     notes: 'Test notes',
     links: 'https://investor.apple.com, https://seekingalpha.com/symbol/AAPL',
+    agent: 'OpenAI',
     last_modified: '2026-02-08T10:30:00Z',
     created_at: '2026-01-15T14:22:00Z'
   }
@@ -293,6 +294,55 @@ describe('StockModal', () => {
       expect(firstLink.attributes('href')).toBeTruthy()
       expect(firstLink.attributes('target')).toBe('_blank')
       expect(firstLink.attributes('rel')).toBe('noopener noreferrer')
+    })
+  })
+
+  describe('AI model section', () => {
+    it('should display AI model section when agent is present', () => {
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: mockStock,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.find('.ai-model-section').exists()).toBe(true)
+    })
+
+    it('should display agent name in AI model section', () => {
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: mockStock,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.text()).toContain('OpenAI')
+    })
+
+    it('should not display AI model section when agent is empty', () => {
+      const stockWithoutAgent = { ...mockStock, agent: '' }
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: stockWithoutAgent,
+          isOpen: true
+        }
+      })
+
+      expect(wrapper.find('.ai-model-section').exists()).toBe(false)
+    })
+
+    it('should render agent as badge chip like links', () => {
+      const wrapper = mount(StockModal, {
+        props: {
+          stock: mockStock,
+          isOpen: true
+        }
+      })
+
+      const agentChip = wrapper.find('.ai-model-section .agent-chip')
+      expect(agentChip.exists()).toBe(true)
+      expect(agentChip.text()).toBe('OpenAI')
     })
   })
 

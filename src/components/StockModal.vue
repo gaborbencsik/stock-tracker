@@ -98,6 +98,13 @@
             </div>
           </div>
 
+          <div v-if="stock.agent" class="ai-model-section">
+            <h3>{{ messages.modal.sections.aiModelHeader }}</h3>
+            <div class="agent-chip">
+              {{ stock.agent }}
+            </div>
+          </div>
+
           <div class="meta-section">
             <div class="meta-item">
               <label>{{ messages.modal.labels.created }}</label>

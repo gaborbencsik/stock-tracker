@@ -83,6 +83,7 @@ export const messages = {
       highsHeader: 'Történelmi csúcsok',
       notesHeader: 'Jegyzetek',
       linksHeader: 'Linkek',
+      aiModelHeader: 'AI model',
       metaHeader: 'Metaadatok'
     },
     labels: {
