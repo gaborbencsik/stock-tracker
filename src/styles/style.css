@@ -487,7 +487,8 @@ body {
 }
 
 .exchange-tag,
-.currency-tag {
+.currency-tag,
+.market-cap-tag {
   background: rgba(255, 255, 255, 0.1);
   padding: 6px 16px;
   border-radius: 12px;
