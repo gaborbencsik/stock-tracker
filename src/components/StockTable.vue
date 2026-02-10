@@ -61,12 +61,6 @@
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
-            <th @click="handleSort('twelve_months_price_target')" class="sortable">
-              {{ messages.table.columns.priceTarget12m }}
-              <span v-if="sortKey === 'twelve_months_price_target'" class="sort-indicator">
-                {{ sortOrder === 'asc' ? '↑' : '↓' }}
-              </span>
-            </th>
             <th @click="handleSort('created_at')" class="sortable">
               {{ messages.table.columns.created }}
               <span v-if="sortKey === 'created_at'" class="sort-indicator">
@@ -107,7 +101,6 @@
               </span>
             </td>
             <td class="price-cell" v-else>-</td>
-            <td class="price-cell">{{ formatPrice(stock.twelve_months_price_target) }} {{ stock.currency }}</td>
             <td class="date-cell">{{ formatDateOnly(stock.created_at) }}</td>
             <td>
               <button 

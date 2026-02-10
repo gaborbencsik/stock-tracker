@@ -185,10 +185,10 @@ describe('StockTable', () => {
       const headers = wrapper.findAll('th')
       const potentialIndex = headers.findIndex(th => th.text().includes(messages.table.columns.potential))
       const currentPriceIndex = headers.findIndex(th => th.text().includes(messages.table.columns.currentPrice))
-      const priceTargetIndex = headers.findIndex(th => th.text().includes(messages.table.columns.priceTarget12m))
+      const createdIndex = headers.findIndex(th => th.text().includes(messages.table.columns.created))
 
       expect(potentialIndex).toBeLessThan(currentPriceIndex)
-      expect(currentPriceIndex).toBeLessThan(priceTargetIndex)
+      expect(currentPriceIndex).toBeLessThan(createdIndex)
     })
 
     it('should render details button for each stock', () => {
