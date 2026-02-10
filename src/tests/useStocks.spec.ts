@@ -11,6 +11,7 @@ const mockStocks: Stock[] = [
     currency: 'EUR',
     market_cap: 'mid',
     entry_price: 33.2,
+    current_price: null,
     uplift_potential: 69.7,
     six_months_price_target: null,
     twelve_months_price_target: 56.26,
@@ -22,6 +23,7 @@ const mockStocks: Stock[] = [
     highest_price: null,
     notes: 'Test stock 1',
     links: 'https://example.com',
+    agent: 'OpenAI',
     last_modified: '2026-02-08',
     created_at: '2026-02-08'
   },
@@ -33,6 +35,7 @@ const mockStocks: Stock[] = [
     currency: 'EUR',
     market_cap: 'mid',
     entry_price: 87.3,
+    current_price: null,
     uplift_potential: 29.9,
     six_months_price_target: null,
     twelve_months_price_target: 113.43,
@@ -44,6 +47,7 @@ const mockStocks: Stock[] = [
     highest_price: null,
     notes: 'Test stock 2',
     links: 'https://example.com',
+    agent: 'OpenAI',
     last_modified: '2026-02-08',
     created_at: '2026-02-08'
   },
@@ -55,6 +59,7 @@ const mockStocks: Stock[] = [
     currency: 'EUR',
     market_cap: 'mid',
     entry_price: 37.5,
+    current_price: null,
     uplift_potential: 45.0,
     six_months_price_target: null,
     twelve_months_price_target: 54.5,
@@ -66,6 +71,7 @@ const mockStocks: Stock[] = [
     highest_price: null,
     notes: 'Test stock 3',
     links: 'https://example.com',
+    agent: 'Gemini',
     last_modified: '2026-02-08',
     created_at: '2026-02-08'
   }
