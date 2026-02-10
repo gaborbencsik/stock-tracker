@@ -67,6 +67,7 @@ export const messages = {
       marketCap: 'Market Cap',
       entryPrice: 'Belépési ár',
       potential: 'Potenciál (%)',
+      currentPrice: 'Aktuális ár',
       priceTarget12m: '12 hónapos cél',
       created: 'Létrehozva',
       actions: 'Műveletek'

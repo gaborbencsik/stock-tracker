@@ -49,6 +49,12 @@
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
+            <th @click="handleSort('current_price')" class="sortable">
+              {{ messages.table.columns.currentPrice }}
+              <span v-if="sortKey === 'current_price'" class="sort-indicator">
+                {{ sortOrder === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
             <th @click="handleSort('twelve_months_price_target')" class="sortable">
               {{ messages.table.columns.priceTarget12m }}
               <span v-if="sortKey === 'twelve_months_price_target'" class="sort-indicator">
@@ -85,6 +91,7 @@
                 {{ stock.uplift_potential > 0 ? '+' : '' }}{{ stock.uplift_potential.toFixed(1) }}%
               </span>
             </td>
+            <td class="price-cell">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</td>
             <td class="price-cell">{{ formatPrice(stock.twelve_months_price_target) }} {{ stock.currency }}</td>
             <td class="date-cell">{{ formatDateOnly(stock.created_at) }}</td>
             <td>

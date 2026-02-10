@@ -22,6 +22,7 @@ describe('StockTable', () => {
       currency: 'USD',
       market_cap: 'large',
       entry_price: 175.50,
+      current_price: 182.45,
       uplift_potential: 14.2,
       six_months_price_target: 195.00,
       twelve_months_price_target: 210.00,
@@ -33,6 +34,7 @@ describe('StockTable', () => {
       highest_price: 198.23,
       notes: 'Test notes',
       links: 'https://investor.apple.com',
+      agent: 'OpenAI',
       last_modified: '2026-02-08T10:30:00Z',
       created_at: '2026-01-15T14:22:00Z'
     },
@@ -44,6 +46,7 @@ describe('StockTable', () => {
       currency: 'USD',
       market_cap: 'large',
       entry_price: 380.00,
+      current_price: 395.20,
       uplift_potential: 18.5,
       six_months_price_target: 425.00,
       twelve_months_price_target: 450.00,
@@ -55,6 +58,7 @@ describe('StockTable', () => {
       highest_price: 415.50,
       notes: 'Microsoft notes',
       links: 'https://www.microsoft.com/investor',
+      agent: 'Gemini',
       last_modified: '2026-02-07T15:45:00Z',
       created_at: '2026-01-20T09:15:00Z'
     }
@@ -146,6 +150,43 @@ describe('StockTable', () => {
 
       expect(wrapper.text()).toContain('2026-01-15')
       expect(wrapper.text()).toContain('2026-01-20')
+    })
+
+    it('should display current price with currency', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain('182.45 USD')
+      expect(wrapper.text()).toContain('395.20 USD')
+    })
+
+    it('should display current price header', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      expect(wrapper.text()).toContain(messages.table.columns.currentPrice)
+    })
+
+    it('should display current price between potential and price target columns', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      const headers = wrapper.findAll('th')
+      const potentialIndex = headers.findIndex(th => th.text().includes(messages.table.columns.potential))
+      const currentPriceIndex = headers.findIndex(th => th.text().includes(messages.table.columns.currentPrice))
+      const priceTargetIndex = headers.findIndex(th => th.text().includes(messages.table.columns.priceTarget12m))
+
+      expect(potentialIndex).toBeLessThan(currentPriceIndex)
+      expect(currentPriceIndex).toBeLessThan(priceTargetIndex)
     })
 
     it('should render details button for each stock', () => {
