@@ -23,7 +23,7 @@
     "links": "https://www.simplywall.st, https://www.marketscreener.com, https://www.investing.com",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2026-02-08",
-    "difference": null
+    "difference": 4.37
   },
   {
     "id": 2,
@@ -49,7 +49,7 @@
     "links": "https://www.tipranks.com, https://www.simplywall.st, https://www.investing.com",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2026-02-08",
-    "difference": null
+    "difference": 2.93
   },
   {
     "id": 3,
@@ -75,7 +75,7 @@
     "links": "https://www.tipranks.com, https://www.simplywall.st, https://www.marketscreener.com",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2026-02-08",
-    "difference": null
+    "difference": 5.55
   },
   {
     "id": 4,
@@ -101,7 +101,7 @@
     "links": "https://www.tipranks.com, https://www.investing.com, https://www.marketscreener.com",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2026-02-08",
-    "difference": null
+    "difference": -0.15
   },
   {
     "id": 5,
@@ -127,7 +127,7 @@
     "links": "https://www.simplywall.st, https://www.tipranks.com, https://www.investing.com",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2026-02-08",
-    "difference": null
+    "difference": 8.6
   },
   {
     "id": 6,
@@ -153,7 +153,7 @@
     "links": "Berenberg, Oddo BHF, Kempen & Co., Kepler Cheuvreux, Jefferies",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": 3.95
   },
   {
     "id": 7,
@@ -179,7 +179,7 @@
     "links": "First Berlin Equity Research, StockInvest.us, SimplyWallSt",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": 3.65
   },
   {
     "id": 9,
@@ -205,7 +205,7 @@
     "links": "Yahoo Finance, MarketWatch",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": -6.05
   },
   {
     "id": 10,
@@ -231,7 +231,7 @@
     "links": "Morningstar, Yahoo Finance",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": 4.12
   },
   {
     "id": 11,
@@ -257,7 +257,7 @@
     "links": "Simply Wall St, Yahoo Finance",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": 1.02
   },
   {
     "id": 12,
@@ -283,7 +283,7 @@
     "links": "Simply Wall St, Yahoo Finance",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": -0.14
   },
   {
     "id": 14,
@@ -309,7 +309,7 @@
     "links": "Simply Wall St, Yahoo Finance",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": 0
   },
   {
     "id": 15,
@@ -335,6 +335,6 @@
     "links": "Simply Wall St, Yahoo Finance",
     "last_modified": "2026-02-10 12:05",
     "created_at": "2025-02-05",
-    "difference": null
+    "difference": -5.31
   }
 ]
