@@ -7,6 +7,7 @@ export interface Stock {
   market_cap: 'small' | 'mid' | 'large'
   entry_price: number
   current_price: number | null
+  difference: number | null
   uplift_potential: number
   six_months_price_target: number | null
   twelve_months_price_target: number | null

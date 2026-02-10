@@ -55,6 +55,12 @@
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
+            <th @click="handleSort('difference')" class="sortable">
+              {{ messages.table.columns.difference }}
+              <span v-if="sortKey === 'difference'" class="sort-indicator">
+                {{ sortOrder === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
             <th @click="handleSort('twelve_months_price_target')" class="sortable">
               {{ messages.table.columns.priceTarget12m }}
               <span v-if="sortKey === 'twelve_months_price_target'" class="sort-indicator">
@@ -92,6 +98,15 @@
               </span>
             </td>
             <td class="price-cell">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</td>
+            <td class="price-cell" v-if="stock.difference !== null">
+              <span 
+                class="difference-badge"
+                :class="stock.difference >= 0 ? 'positive' : 'negative'"
+              >
+                {{ stock.difference > 0 ? '+' : '' }}{{ stock.difference.toFixed(2) }}%
+              </span>
+            </td>
+            <td class="price-cell" v-else>-</td>
             <td class="price-cell">{{ formatPrice(stock.twelve_months_price_target) }} {{ stock.currency }}</td>
             <td class="date-cell">{{ formatDateOnly(stock.created_at) }}</td>
             <td>

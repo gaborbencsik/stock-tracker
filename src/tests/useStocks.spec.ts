@@ -25,6 +25,7 @@ const mockStocks: Stock[] = [
     links: 'https://example.com',
     agent: 'OpenAI',
     last_modified: '2026-02-08',
+    difference: null,
     created_at: '2026-02-08'
   },
   {
@@ -49,6 +50,7 @@ const mockStocks: Stock[] = [
     links: 'https://example.com',
     agent: 'OpenAI',
     last_modified: '2026-02-08',
+    difference: null,
     created_at: '2026-02-08'
   },
   {
@@ -73,6 +75,7 @@ const mockStocks: Stock[] = [
     links: 'https://example.com',
     agent: 'Gemini',
     last_modified: '2026-02-08',
+    difference: null,
     created_at: '2026-02-08'
   }
 ]

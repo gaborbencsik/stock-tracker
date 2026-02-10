@@ -36,7 +36,8 @@ describe('StockTable', () => {
       links: 'https://investor.apple.com',
       agent: 'OpenAI',
       last_modified: '2026-02-08T10:30:00Z',
-      created_at: '2026-01-15T14:22:00Z'
+      difference: null,
+    created_at: '2026-01-15T14:22:00Z'
     },
     {
       id: 2,
@@ -60,7 +61,8 @@ describe('StockTable', () => {
       links: 'https://www.microsoft.com/investor',
       agent: 'Gemini',
       last_modified: '2026-02-07T15:45:00Z',
-      created_at: '2026-01-20T09:15:00Z'
+      difference: null,
+    created_at: '2026-01-20T09:15:00Z'
     }
   ]
 
@@ -428,6 +430,136 @@ describe('StockTable', () => {
       const text = wrapper.text()
       expect(text).toContain('small')
       expect(text).toContain('large')
+    })
+  })
+
+  describe('difference column display', () => {
+    it('should display dash when difference is null', () => {
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: mockStocks
+        }
+      })
+
+      // Find cells with just "-" text
+      const dashCells = wrapper.findAll('td').filter(cell => 
+        cell.classes().includes('price-cell') && cell.text() === '-'
+      )
+      
+      expect(dashCells.length).toBeGreaterThan(0)
+    })
+
+    it('should display difference percentage when difference has value', async () => {
+      const stockWithDifference: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'DIFF',
+        difference: 4.25
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [stockWithDifference]
+        }
+      })
+
+      const differenceBadges = wrapper.findAll('.difference-badge')
+      expect(differenceBadges.length).toBeGreaterThan(0)
+      expect(wrapper.text()).toContain('+4.25%')
+    })
+
+    it('should apply positive class for positive difference', () => {
+      const stockWithPositiveDifference: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'DIFF',
+        difference: 5.0
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [stockWithPositiveDifference]
+        }
+      })
+
+      const differenceBadge = wrapper.find('.difference-badge')
+      expect(differenceBadge.classes()).toContain('positive')
+    })
+
+    it('should apply negative class for negative difference', () => {
+      const stockWithNegativeDifference: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'DIFF',
+        difference: -3.5
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [stockWithNegativeDifference]
+        }
+      })
+
+      const differenceBadge = wrapper.find('.difference-badge')
+      expect(differenceBadge.classes()).toContain('negative')
+    })
+
+    it('should display plus sign for positive difference', () => {
+      const stockWithPositiveDifference: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'DIFF',
+        difference: 2.75
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [stockWithPositiveDifference]
+        }
+      })
+
+      expect(wrapper.text()).toContain('+2.75%')
+    })
+
+    it('should display without plus sign for negative difference', () => {
+      const stockWithNegativeDifference: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        ticker: 'DIFF',
+        difference: -1.5
+      }
+
+      const wrapper = mount(StockTable, {
+        props: {
+          stocks: [stockWithNegativeDifference]
+        }
+      })
+
+      expect(wrapper.text()).toContain('-1.50%')
+    })
+
+    it('should be sortable by difference', async () => {
+      const stocks: Stock[] = [
+        { ...mockStocks[0], id: 1, ticker: 'A', difference: 5.0 },
+        { ...mockStocks[0], id: 2, ticker: 'B', difference: 2.0 }
+      ]
+
+      const wrapper = mount(StockTable, {
+        props: { stocks }
+      })
+
+      // Find the difference header and click it
+      const headers = wrapper.findAll('th.sortable')
+      const differenceHeader = headers.find(h => h.text().includes('Különbség'))
+      
+      if (differenceHeader) {
+        await differenceHeader.trigger('click')
+        await nextTick()
+
+        const rows = wrapper.findAll('.stock-row')
+        const firstTicker = rows[0].find('.ticker-badge')?.text()
+        expect(firstTicker).toBe('B') // Lower difference first (ascending)
+      }
     })
   })
 })

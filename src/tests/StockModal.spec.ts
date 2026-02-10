@@ -20,6 +20,7 @@ describe('StockModal', () => {
     currency: 'USD',
     market_cap: 'large',
     entry_price: 175.50,
+    current_price: 182.45,
     uplift_potential: 14.2,
     six_months_price_target: 195.00,
     twelve_months_price_target: 210.00,
@@ -33,6 +34,7 @@ describe('StockModal', () => {
     links: 'https://investor.apple.com, https://seekingalpha.com/symbol/AAPL',
     agent: 'OpenAI',
     last_modified: '2026-02-08T10:30:00Z',
+    difference: null,
     created_at: '2026-01-15T14:22:00Z'
   }
 

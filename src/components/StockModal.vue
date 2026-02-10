@@ -28,6 +28,14 @@
               <label>{{ messages.modal.labels.potential }}</label>
               <div class="potential-value">{{ stock.uplift_potential > 0 ? '+' : '' }}{{ stock.uplift_potential.toFixed(1) }}%</div>
             </div>
+            <div class="current-price-card">
+              <label>{{ messages.table.columns.currentPrice }}</label>
+              <div class="price-value">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</div>
+            </div>
+            <div v-if="stock.difference !== null" class="difference-card" :class="stock.difference >= 0 ? 'positive' : 'negative'">
+              <label>{{ messages.table.columns.difference }}</label>
+              <div class="difference-value">{{ stock.difference > 0 ? '+' : '' }}{{ stock.difference.toFixed(2) }}%</div>
+            </div>
           </div>
 
           <div class="targets-section">
