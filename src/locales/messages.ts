@@ -65,7 +65,7 @@ export const messages = {
       name: 'Név',
       exchange: 'Tőzsde',
       marketCap: 'Market Cap',
-      entryPrice: 'Belépési ár',
+      entryPrice: 'Elemzéskori ár',
       potential: 'Potenciál (%)',
       currentPrice: 'Aktuális ár',
       priceTarget12m: '12 hónapos cél',
@@ -88,7 +88,7 @@ export const messages = {
       metaHeader: 'Metaadatok'
     },
     labels: {
-      entryPrice: 'Belépési ár',
+      entryPrice: 'Elemzéskori ár',
       potential: 'Növekedési potenciál',
       priceTarget6m: '6 hónapos cél',
       priceTarget12m: '12 hónapos cél',
