@@ -8,7 +8,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 33.2,
-    "current_price": 34.65,
+    "current_price": 35.5,
     "uplift_potential": 69.7,
     "six_months_price_target": null,
     "twelve_months_price_target": 56.26,
@@ -21,9 +21,8 @@
     "agent": "OpenAI",
     "notes": "Digitális és out-of-home reklámpiaci vezető. Magas FCF, de nagy adósságállomány. Elemzők szerint jelentősen alulértékelt a jelenlegi reklámpiaci gyengeség miatt.",
     "links": "https://www.simplywall.st, https://www.marketscreener.com, https://www.investing.com",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2026-02-08",
-    "difference": 4.37
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2026-02-08"
   },
   {
     "id": 2,
@@ -34,7 +33,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 87.3,
-    "current_price": 89.86,
+    "current_price": 92.78,
     "uplift_potential": 29.9,
     "six_months_price_target": null,
     "twelve_months_price_target": 113.43,
@@ -47,9 +46,8 @@
     "agent": "OpenAI",
     "notes": "Vegyipari disztribútor stabil cash flow-val és felvásárlási stratégiával. Mérsékelt P/E, jó növekedési kilátások.",
     "links": "https://www.tipranks.com, https://www.simplywall.st, https://www.investing.com",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2026-02-08",
-    "difference": 2.93
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2026-02-08"
   },
   {
     "id": 3,
@@ -60,7 +58,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 37.5,
-    "current_price": 39.58,
+    "current_price": 38.22,
     "uplift_potential": 45,
     "six_months_price_target": null,
     "twelve_months_price_target": 54.5,
@@ -73,9 +71,8 @@
     "agent": "OpenAI",
     "notes": "Mérnöki és infrastruktúra-tanácsadó. EU zöld és infrastrukturális beruházásokból profitálhat. Ciklikus kockázat jelen van.",
     "links": "https://www.tipranks.com, https://www.simplywall.st, https://www.marketscreener.com",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2026-02-08",
-    "difference": 5.55
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2026-02-08"
   },
   {
     "id": 4,
@@ -86,7 +83,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 67.6,
-    "current_price": 67.5,
+    "current_price": 67.45,
     "uplift_potential": 43.6,
     "six_months_price_target": null,
     "twelve_months_price_target": 97.14,
@@ -99,9 +96,8 @@
     "agent": "OpenAI",
     "notes": "Autókölcsönző piac vezető szereplője Európában. Erős cash flow, de magas adósság. Utazási kereslet növekedése támogatja.",
     "links": "https://www.tipranks.com, https://www.investing.com, https://www.marketscreener.com",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2026-02-08",
-    "difference": -0.15
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2026-02-08"
   },
   {
     "id": 5,
@@ -112,7 +108,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 70,
-    "current_price": 76.02,
+    "current_price": 76.66,
     "uplift_potential": 31.7,
     "six_months_price_target": null,
     "twelve_months_price_target": 95.8,
@@ -125,9 +121,8 @@
     "agent": "OpenAI",
     "notes": "Aroma- és ízanyaggyártó. Egyszeri leírások miatt alulárazott. Hosszú távon stabil kereslet az FMCG szektorban.",
     "links": "https://www.simplywall.st, https://www.tipranks.com, https://www.investing.com",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2026-02-08",
-    "difference": 8.6
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2026-02-08"
   },
   {
     "id": 6,
@@ -138,7 +133,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 14.18,
-    "current_price": 14.74,
+    "current_price": 15.5,
     "uplift_potential": 25.2,
     "six_months_price_target": null,
     "twelve_months_price_target": 17.75,
@@ -151,9 +146,8 @@
     "agent": "Gemini",
     "notes": "Német és lengyel lakóingatlan-fókusz. Elemzői medián célár 17,75 EUR. Osztalékpolitika-váltás, lengyel terjeszkedés. Kamatérzékenység kockázat.",
     "links": "Berenberg, Oddo BHF, Kempen & Co., Kepler Cheuvreux, Jefferies",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": 3.95
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 7,
@@ -164,7 +158,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 2.767,
-    "current_price": 2.868,
+    "current_price": 3.016,
     "uplift_potential": 18.6,
     "six_months_price_target": null,
     "twelve_months_price_target": 3.25,
@@ -177,9 +171,8 @@
     "agent": "Gemini",
     "notes": "Európai kereskedelmi ingatlanvállalat. Jelentős NTA-diszkont. Aktív részvény-visszavásárlás. Vegyes elemzői megítélés.",
     "links": "First Berlin Equity Research, StockInvest.us, SimplyWallSt",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": 3.65
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 9,
@@ -190,7 +183,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 25.6,
-    "current_price": 24.05,
+    "current_price": 23.35,
     "uplift_potential": 41.6,
     "six_months_price_target": null,
     "twelve_months_price_target": 36.26,
@@ -203,9 +196,8 @@
     "agent": "Gemini",
     "notes": "Európai felhő- és webhosting szolgáltató. 40%+ upside. AI-alapú megoldások. Erős globális verseny.",
     "links": "Yahoo Finance, MarketWatch",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": -6.05
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 10,
@@ -216,7 +208,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 77.7,
-    "current_price": 80.9,
+    "current_price": 79.15,
     "uplift_potential": 17.9,
     "six_months_price_target": null,
     "twelve_months_price_target": 91.59,
@@ -229,9 +221,8 @@
     "agent": "Gemini",
     "notes": "Védelmi szenzor- és elektronikai vállalat. Erős megrendelésállomány. Politikai kitettség kockázat.",
     "links": "Morningstar, Yahoo Finance",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": 4.12
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 11,
@@ -242,7 +233,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 34.3,
-    "current_price": 34.65,
+    "current_price": 35.5,
     "uplift_potential": 42.3,
     "six_months_price_target": null,
     "twelve_months_price_target": 59.44,
@@ -255,9 +246,8 @@
     "agent": "Gemini",
     "notes": "Német médiavállalat. Cash-flow alapú alulértékeltség. Magas növekedési várakozás. Magas adósság kockázat.",
     "links": "Simply Wall St, Yahoo Finance",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": 1.02
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 12,
@@ -268,7 +258,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 72.9,
-    "current_price": 72.8,
+    "current_price": 73,
     "uplift_potential": 48.7,
     "six_months_price_target": null,
     "twelve_months_price_target": 142.2,
@@ -281,9 +271,8 @@
     "agent": "Gemini",
     "notes": "Ipari technológiai csoport. Jelentős cash-flow diszkont. Fenntartható technológiák növekedése. Ciklikus kockázat.",
     "links": "Simply Wall St, Yahoo Finance",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": -0.14
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 14,
@@ -307,9 +296,8 @@
     "agent": "Gemini",
     "notes": "Globális disztribútor. Közel 50%-os diszkont. Stabil hálózat. Alacsony marzsok kockázat.",
     "links": "Simply Wall St, Yahoo Finance",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": 0
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   },
   {
     "id": 15,
@@ -320,7 +308,7 @@
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 2.26,
-    "current_price": 2.14,
+    "current_price": 2.32,
     "uplift_potential": 50,
     "six_months_price_target": null,
     "twelve_months_price_target": 4.52,
@@ -333,8 +321,7 @@
     "agent": "Gemini",
     "notes": "Kiberbiztonsági vállalat. 50%-os cash-flow diszkont. Digitalizáció hajtja. Erős verseny.",
     "links": "Simply Wall St, Yahoo Finance",
-    "last_modified": "2026-02-10 12:05",
-    "created_at": "2025-02-05",
-    "difference": -5.31
+    "last_modified": "2026-02-11 12:33",
+    "created_at": "2025-02-05"
   }
 ]
