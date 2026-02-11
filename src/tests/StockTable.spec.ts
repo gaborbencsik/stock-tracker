@@ -441,9 +441,9 @@ describe('StockTable', () => {
         }
       })
 
-      // Find cells with just "-" text
+      // Find cells with just "-" text in the difference column
       const dashCells = wrapper.findAll('td').filter(cell => 
-        cell.classes().includes('price-cell') && cell.text() === '-'
+        cell.classes().includes('difference-cell') && cell.text() === '-'
       )
       
       expect(dashCells.length).toBeGreaterThan(0)

@@ -76,14 +76,14 @@
             :key="stock.id"
             class="stock-row"
           >
-            <td class="ticker-cell">
+            <td class="ticker-cell" data-label="Ticker">
               <span class="ticker-badge">{{ stock.ticker }}</span>
             </td>
-            <td class="name-cell">{{ stock.name }}</td>
-            <td>{{ stock.stock_exchange }}</td>
-            <td class="market-cap-cell">{{ stock.market_cap }}</td>
-            <td class="price-cell">{{ formatPrice(stock.entry_price) }} {{ stock.currency }}</td>
-            <td>
+            <td class="name-cell" data-label="Name">{{ stock.name }}</td>
+            <td class="stock-exchange-cell" data-label="Exchange">{{ stock.stock_exchange }}</td>
+            <td class="market-cap-cell" data-label="Market Cap">{{ stock.market_cap }}</td>
+            <td class="entry-price-cell" data-label="Entry Price">{{ formatPrice(stock.entry_price) }} {{ stock.currency }}</td>
+            <td class="potential-cell" data-label="Potential">
               <span 
                 class="potential-badge"
                 :class="stock.uplift_potential >= 0 ? 'positive' : 'negative'"
@@ -91,8 +91,8 @@
                 {{ stock.uplift_potential > 0 ? '+' : '' }}{{ stock.uplift_potential.toFixed(1) }}%
               </span>
             </td>
-            <td class="price-cell">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</td>
-            <td class="price-cell" v-if="stock.difference !== null">
+            <td class="current-price-cell" data-label="Current Price">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</td>
+            <td class="difference-cell" data-label="Difference" v-if="stock.difference !== null">
               <span 
                 class="difference-badge"
                 :class="stock.difference >= 0 ? 'positive' : 'negative'"
@@ -100,9 +100,9 @@
                 {{ stock.difference > 0 ? '+' : '' }}{{ stock.difference.toFixed(2) }}%
               </span>
             </td>
-            <td class="price-cell" v-else>-</td>
-            <td class="date-cell">{{ formatDateOnly(stock.created_at) }}</td>
-            <td>
+            <td class="difference-cell" data-label="Difference" v-else>-</td>
+            <td class="date-cell" data-label="Date">{{ formatDateOnly(stock.created_at) }}</td>
+            <td class="actions-cell">
               <button 
                 @click="handleDetails(stock)"
                 class="details-button"

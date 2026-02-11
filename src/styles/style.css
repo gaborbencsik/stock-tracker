@@ -277,6 +277,7 @@ body {
 
 .table-wrapper {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .stocks-table {
@@ -799,76 +800,762 @@ h3 {
   transform: scale(0.9) translateY(20px);
 }
 
-/* Responsive design */
+/* =============================================
+   Responsive Design - Mobile First Approach
+   ============================================= */
 
-@media (max-width: 768px) {
-  /* Header */
+/* Tablet breakpoint: 769px - 1024px */
+@media (max-width: 1024px) {
+  .app-header {
+    padding: 32px 16px;
+  }
+
   .app-title {
-    font-size: 32px;
+    font-size: 40px;
   }
 
   .app-subtitle {
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 48px;
   }
 
-  /* Summary */
-  .stocks-summary {
-    grid-template-columns: 1fr;
+  .app-main {
+    padding: 32px 16px;
   }
 
-  /* Filters */
+  .stocks-summary {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .summary-card {
+    padding: 20px;
+  }
+
+  .summary-value {
+    font-size: 28px;
+  }
+
+  .filters-container {
+    padding: 20px;
+  }
+
   .filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .pricing-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .targets-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal-container {
+    max-width: 95%;
+    margin: 20px;
+  }
+
+  .modal-content {
+    padding: 32px;
+  }
+
+  .stock-name {
+    font-size: 28px;
+  }
+
+  .stock-meta {
+    flex-wrap: wrap;
+  }
+
+  .meta-section {
+    gap: 24px;
+  }
+}
+
+/* Mobile breakpoint: max 768px */
+@media (max-width: 768px) {
+  /* Global adjustments */
+  body {
+    font-size: 14px;
+  }
+
+  /* Header responsive */
+  .app-header {
+    padding: 24px 12px;
+  }
+
+  .header-content {
+    padding: 0;
+  }
+
+  .app-title {
+    font-size: 28px;
+    gap: 12px;
+    margin-bottom: 4px;
+    letter-spacing: 0;
+  }
+
+  .app-title svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-subtitle {
+    font-size: 12px;
+    margin-left: 44px;
+  }
+
+  /* Main content */
+  .app-main {
+    padding: 24px 12px;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  /* Summary cards */
+  .stocks-summary {
     grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .summary-card {
+    padding: 16px;
+    gap: 6px;
+  }
+
+  .summary-label {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .summary-value {
+    font-size: 24px;
+  }
+
+  /* Filters container */
+  .filters-container {
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 12px;
   }
 
   .filters-header {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     align-items: stretch;
+    margin-bottom: 16px;
+  }
+
+  .filters-header h2 {
+    font-size: 18px;
+    margin: 0;
   }
 
   .reset-button {
     width: 100%;
+    padding: 12px 16px;
+    font-size: 13px;
+    border-radius: 6px;
   }
 
-  /* Table */
-  .stocks-table {
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .filter-group {
+    gap: 6px;
+  }
+
+  .filter-group label {
     font-size: 12px;
   }
 
-  .stocks-table th,
+  .filter-input,
+  .filter-select {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .market-cap-select {
+    min-height: 80px;
+  }
+
+  /* Table responsive - CARD VIEW */
+  .table-wrapper {
+    overflow: visible;
+  }
+
+  .stocks-table {
+    font-size: 11px;
+    display: block;
+  }
+
+  .stocks-table thead {
+    display: none;
+  }
+
+  .stocks-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stocks-table tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    gap: 8px;
+    margin: 0;
+    border-bottom: none;
+  }
+
   .stocks-table td {
-    padding: 12px 8px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    font-size: 12px;
+    color: #374151;
+  }
+
+  .stocks-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #6b7280;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ticker-cell::before {
+    content: 'Ticker';
+  }
+
+  .name-cell::before {
+    content: 'Name';
+  }
+
+  .stock-exchange-cell::before {
+    content: 'Exchange';
+  }
+
+  .market-cap-cell::before {
+    content: 'Market Cap';
+  }
+
+  .entry-price-cell::before {
+    content: 'Entry Price';
+  }
+
+  .potential-cell::before {
+    content: 'Potential';
+  }
+
+  .current-price-cell::before {
+    content: 'Current Price';
+  }
+
+  .difference-cell::before {
+    content: 'Difference';
+  }
+
+  .date-cell::before {
+    content: 'Date';
+  }
+
+  .actions-cell::before {
+    content: '';
   }
 
   .ticker-badge {
-    padding: 3px 8px;
+    padding: 4px 8px;
     font-size: 11px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .name-cell {
+    font-size: 13px;
+    font-weight: 600;
+    grid-column: 2;
   }
 
   .details-button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+    white-space: normal;
+    width: 100%;
+    text-align: center;
+    grid-column: 1 / -1;
   }
 
-  /* Modal */
+  .potential-badge,
+  .difference-badge {
+    padding: 3px 6px;
+    font-size: 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* Modal responsive */
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .modal-container {
+    border-radius: 16px;
+    max-height: 95vh;
+  }
+
+  .modal-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
   .modal-content {
-    padding: 24px;
+    padding: 20px;
+  }
+
+  .modal-header {
+    margin-bottom: 24px;
   }
 
   .stock-name {
+    font-size: 20px;
+    margin: 12px 0;
+  }
+
+  .stock-meta {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .exchange-tag,
+  .currency-tag,
+  .market-cap-tag {
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  /* Pricing section */
+  .pricing-section {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .entry-price-card,
+  .potential-card,
+  .current-price-card,
+  .difference-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .entry-price-card label,
+  .potential-card label,
+  .current-price-card label,
+  .difference-card label {
+    font-size: 11px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .price-value,
+  .potential-value,
+  .difference-value {
     font-size: 24px;
   }
 
-  .pricing-section,
-  .targets-grid {
-    grid-template-columns: 1fr;
+  /* Targets section */
+  .targets-section,
+  .highs-section,
+  .notes-section,
+  .links-section {
+    margin-bottom: 24px;
   }
 
+  h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .targets-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .target-card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .target-card label {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .target-value {
+    font-size: 20px;
+  }
+
+  /* Highs timeline */
+  .highs-timeline {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .high-item {
+    padding: 12px;
+  }
+
+  .high-item label {
+    font-size: 11px;
+  }
+
+  .high-item span {
+    font-size: 16px;
+  }
+
+  .high-item.highlight {
+    margin-top: 6px;
+    padding: 12px;
+  }
+
+  /* Notes */
+  .notes-section p {
+    padding: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-left: 3px solid #667eea;
+  }
+
+  /* Links */
+  .links-grid {
+    gap: 8px;
+  }
+
+  .link-chip {
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 16px;
+  }
+
+  /* AI model section */
+  .ai-model-section {
+    gap: 8px;
+  }
+
+  .ai-model-section h3 {
+    font-size: 12px;
+  }
+
+  .agent-chip {
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 16px;
+  }
+
+  /* Meta section */
   .meta-section {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+    font-size: 11px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .meta-item {
+    gap: 6px;
+  }
+
+  /* Filters toggle */
+  .filters-toggle-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  }
+
+  .filter-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    padding: 40px 16px;
+  }
+
+  .empty-state h3 {
+    font-size: 18px;
+  }
+
+  .empty-state p {
+    font-size: 13px;
+  }
+}
+
+/* Extra small devices: max 480px */
+@media (max-width: 480px) {
+  /* Header */
+  .app-header {
+    padding: 16px 8px;
+  }
+
+  .app-title {
+    font-size: 22px;
+    gap: 8px;
+  }
+
+  .app-title svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-subtitle {
+    font-size: 11px;
+    margin-left: 32px;
+  }
+
+  /* Main content */
+  .app-main {
+    padding: 16px 8px;
+  }
+
+  /* Summary cards - single column */
+  .stocks-summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .summary-card {
+    padding: 12px;
+  }
+
+  .summary-label {
+    font-size: 10px;
+  }
+
+  .summary-value {
+    font-size: 20px;
+  }
+
+  /* Filters */
+  .filters-container {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .filters-header h2 {
+    font-size: 16px;
+  }
+
+  .filters-grid {
+    gap: 8px;
+  }
+
+  .filter-input,
+  .filter-select {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Table - Card View Mobile Optimized */
+  .stocks-table tr {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 6px;
+    border-radius: 6px;
+  }
+
+  .stocks-table td {
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .stocks-table td::before {
+    font-size: 9px;
+  }
+
+  .ticker-badge {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .name-cell {
+    font-size: 12px;
+  }
+
+  .details-button {
+    padding: 10px 8px;
+    font-size: 10px;
+    border-radius: 6px;
+  }
+
+  /* Modal */
+  .modal-container {
+    max-height: 98vh;
+    border-radius: 12px;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .modal-content {
+    padding: 16px;
+  }
+
+  .stock-name {
+    font-size: 18px;
+  }
+
+  .stock-meta {
+    gap: 6px;
+  }
+
+  .exchange-tag,
+  .currency-tag,
+  .market-cap-tag {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  /* Pricing cards */
+  .pricing-section {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .entry-price-card,
+  .potential-card,
+  .current-price-card,
+  .difference-card {
+    padding: 12px;
+  }
+
+  .price-value,
+  .potential-value,
+  .difference-value {
+    font-size: 20px;
+  }
+
+  /* Sections */
+  .targets-section,
+  .highs-section,
+  .notes-section,
+  .links-section {
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .targets-grid {
+    gap: 8px;
+  }
+
+  .target-value {
+    font-size: 18px;
+  }
+
+  /* Notes */
+  .notes-section p {
+    padding: 10px;
+    font-size: 12px;
+    border-left: 2px solid #667eea;
+  }
+
+  /* Links */
+  .links-grid {
+    gap: 6px;
+  }
+
+  .link-chip {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .link-chip svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Meta section */
+  .meta-section {
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  /* Filters toggle */
+  .filters-toggle-btn {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    padding: 30px 12px;
+  }
+
+  .empty-state h3 {
+    font-size: 16px;
+  }
+
+  .empty-state p {
+    font-size: 12px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap targets */
+  .details-button,
+  .reset-button,
+  .filters-toggle-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Remove hover effects that don't work on touch */
+  .summary-card:hover,
+  .stock-row:hover,
+  .link-chip:hover {
+    transform: none;
+  }
+
+  /* Simplify transitions for mobile */
+  * {
+    transition-duration: 0.15s;
   }
 }
 
