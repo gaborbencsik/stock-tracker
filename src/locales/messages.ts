@@ -68,7 +68,7 @@ export const messages = {
       entryPrice: 'Elemzéskori ár',
       potential: 'Potenciál (%)',
       currentPrice: 'Aktuális ár',
-      difference: 'Különbség (%)',
+      difference: 'Változás (%)',
       priceTarget12m: '12 hónapos cél',
       created: 'Létrehozva',
       actions: 'Műveletek'
