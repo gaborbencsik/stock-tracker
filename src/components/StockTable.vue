@@ -75,6 +75,7 @@
             v-for="stock in sortedStocks" 
             :key="stock.id"
             class="stock-row"
+            @click="handleDetails(stock)"
           >
             <td class="ticker-cell" data-label="Ticker">
               <span class="ticker-badge">{{ stock.ticker }}</span>

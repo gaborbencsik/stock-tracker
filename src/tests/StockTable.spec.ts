@@ -309,18 +309,17 @@ describe('StockTable', () => {
         }
       })
 
-      const detailsButtons = wrapper.findAll('.details-button')
       const rows = wrapper.findAll('.stock-row')
       
       // Get tickers from rendered rows to match the sorted order
       const firstRowTicker = rows[0].find('.ticker-badge')?.text()
       const secondRowTicker = rows[1].find('.ticker-badge')?.text()
       
-      await detailsButtons[0].trigger('click')
+      await rows[0].trigger('click')
       let emittedStock = wrapper.emitted('show-details')?.[0]?.[0] as typeof mockStocks[0]
       expect(emittedStock?.ticker).toBe(firstRowTicker)
 
-      await detailsButtons[1].trigger('click')
+      await rows[1].trigger('click')
       emittedStock = wrapper.emitted('show-details')?.[1]?.[0] as typeof mockStocks[0]
       expect(emittedStock?.ticker).toBe(secondRowTicker)
     })

@@ -992,6 +992,7 @@ h3 {
   /* Table responsive - CARD VIEW */
   .table-wrapper {
     overflow: visible;
+    padding: 0 0;
   }
 
   .stocks-table {
@@ -1006,109 +1007,192 @@ h3 {
   .stocks-table tbody {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+    padding: 0;
   }
 
+  /* Card Layout - Grid for alignment */
   .stocks-table tr {
     display: grid;
-    grid-template-columns: 1fr;
-    background: white;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto auto;
+    background: #f9fafb;
     border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 12px;
-    gap: 8px;
+    border-radius: 14px;
+    padding: 16px;
+    gap: 0;
     margin: 0;
     border-bottom: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    align-items: stretch;
   }
 
+  .stocks-table tr:active {
+    background: #f3f4f6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Main Card Content */
   .stocks-table td {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 8px;
+    display: block;
     padding: 0;
-    font-size: 12px;
+    font-size: 14px;
     color: #374151;
+    margin: 0;
   }
 
-  .stocks-table td::before {
-    content: attr(data-label);
-    font-weight: 700;
-    color: #6b7280;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .ticker-cell::before {
-    content: 'Ticker';
-  }
-
-  .name-cell::before {
-    content: 'Name';
-  }
-
-  .stock-exchange-cell::before {
-    content: 'Exchange';
-  }
-
-  .market-cap-cell::before {
-    content: 'Market Cap';
-  }
-
-  .entry-price-cell::before {
-    content: 'Entry Price';
-  }
-
-  .potential-cell::before {
-    content: 'Potential';
-  }
-
-  .current-price-cell::before {
-    content: 'Current Price';
-  }
-
-  .difference-cell::before {
-    content: 'Difference';
-  }
-
-  .date-cell::before {
-    content: 'Date';
-  }
-
-  .actions-cell::before {
-    content: '';
+  /* LEFT SIDE - Ticker Badge (Hidden) */
+  .ticker-cell {
+    display: none;
   }
 
   .ticker-badge {
-    padding: 4px 8px;
+    padding: 4px 10px;
     font-size: 11px;
     border-radius: 6px;
     display: inline-block;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    letter-spacing: 1px;
   }
 
+  /* Stock Name (Row 1, Left) */
   .name-cell {
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: flex-start;
+    padding-bottom: 2px;
+  }
+
+  /* Stock Exchange - Hide */
+  .stock-exchange-cell {
+    display: none !important;
+  }
+
+  /* Market Cap - Hide */
+  .market-cap-cell {
+    display: none !important;
+  }
+
+  /* Date Cell - Hide */
+  .date-cell {
+    display: none !important;
+  }
+
+  /* Entry Price (Row 2, Left) */
+  .entry-price-cell {
     font-size: 13px;
+    color: #374151;
+    font-weight: 500;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+  }
+
+  /* Current Price (Row 2, Right) */
+  .current-price-cell {
+    font-size: 15px;
     font-weight: 600;
+    color: #374151;
     grid-column: 2;
+    grid-row: 2;
+    text-align: right;
+    align-self: center;
+  }
+
+  /* Potential (Row 3, Left) */
+  .potential-cell {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: flex-end;
+    font-size: 13px;
+  }
+
+  .potential-badge {
+    padding: 2px 6px;
+    font-size: 13px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: inline-block;
+    background: none;
+  }
+
+  .potential-badge.positive {
+    background: none;
+    color: #16a34a;
+  }
+
+  .potential-badge.negative {
+    background: none;
+    color: #dc2626;
+  }
+
+  /* Difference (Row 3, Right) */
+  .difference-cell {
+    font-size: 15px;
+    font-weight: 600;
+    color: #374151;
+    grid-column: 2;
+    grid-row: 3;
+    text-align: right;
+    align-self: flex-end;
+  }
+
+  .difference-badge {
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: inline-block;
+    background: none;
+  }
+
+  .difference-badge.positive {
+    background: none;
+    color: #16a34a;
+  }
+
+  .difference-badge.negative {
+    background: none;
+    color: #dc2626;
+  }
+
+  /* Date Cell - Hide */
+  .date-cell {
+    display: none;
+  }
+
+  /* Actions Button - Row 4, Full Width */
+  .actions-cell {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    padding: 8px 0 0 0;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 4px;
+  }
+
+  .ticker-badge {
+    display: none;
   }
 
   .details-button {
-    padding: 8px 12px;
-    font-size: 11px;
-    border-radius: 6px;
-    white-space: normal;
-    width: 100%;
-    text-align: center;
-    grid-column: 1 / -1;
+    display: none;
   }
 
-  .potential-badge,
-  .difference-badge {
-    padding: 3px 6px;
-    font-size: 10px;
-    border-radius: 6px;
-    display: inline-block;
+  .stocks-table tr {
+    cursor: pointer;
+  }
+
+  .stocks-table tr:active {
+    background: #f0f4f8;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(0.98);
   }
 
   /* Modal responsive */
@@ -1384,35 +1468,66 @@ h3 {
   }
 
   /* Table - Card View Mobile Optimized */
+  .stocks-table {
+    display: block;
+  }
+
   .stocks-table tr {
-    grid-template-columns: 1fr;
-    padding: 10px;
-    gap: 6px;
-    border-radius: 6px;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto auto;
+    padding: 14px;
+    gap: 0;
+    border-radius: 12px;
+  }
+
+  .stocks-table tbody {
+    gap: 12px;
   }
 
   .stocks-table td {
-    gap: 6px;
-    font-size: 11px;
-  }
-
-  .stocks-table td::before {
-    font-size: 9px;
-  }
-
-  .ticker-badge {
-    padding: 3px 6px;
-    font-size: 10px;
+    font-size: 20px;
   }
 
   .name-cell {
-    font-size: 12px;
+    font-size: 15px;
+    padding-bottom: 2px;
+  }
+
+  .entry-price-cell {
+    font-size: 20px;
+  }
+
+  .potential-cell {
+    font-size: 20px;
+  }
+
+  .potential-badge {
+    font-size: 20px;
+  }
+
+  .current-price-cell {
+    font-size: 20px;
+  }
+
+  .difference-cell {
+    font-size: 20px;
+  }
+
+  .difference-badge {
+    font-size: 20px;
+  }
+
+  .ticker-badge {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .actions-cell {
+    margin-top: 2px;
   }
 
   .details-button {
-    padding: 10px 8px;
-    font-size: 10px;
-    border-radius: 6px;
+    display: none;
   }
 
   /* Modal */
