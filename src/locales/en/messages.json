@@ -1,0 +1,102 @@
+{
+  "header": {
+    "title": "Under Value Radar",
+    "subtitle": "Undervalued stocks, mapped with artificial intelligence."
+  },
+  "filters": {
+    "toggleShow": "Show filters",
+    "toggleHide": "Hide filters",
+    "title": "Filters",
+    "reset": "Reset",
+    "search": {
+      "label": "Search (Ticker or Name)",
+      "placeholder": "e.g. AAPL, Apple..."
+    },
+    "exchange": {
+      "label": "Exchange",
+      "allOption": "All"
+    },
+    "currency": {
+      "label": "Currency",
+      "allOption": "All"
+    },
+    "minPrice": {
+      "label": "Min price",
+      "placeholder": "0"
+    },
+    "maxPrice": {
+      "label": "Max price",
+      "placeholder": "∞"
+    },
+    "minPotential": {
+      "label": "Min potential (%)",
+      "placeholder": "-∞"
+    },
+    "maxPotential": {
+      "label": "Max potential (%)",
+      "placeholder": "∞"
+    },
+    "marketCap": {
+      "label": "Market cap",
+      "selectAll": "Select all",
+      "searchPlaceholder": "Search...",
+      "small": "Small",
+      "mid": "Mid",
+      "large": "Large"
+    }
+  },
+  "table": {
+    "empty": {
+      "title": "No stocks to display",
+      "description": "Try adjusting the filters"
+    },
+    "columns": {
+      "ticker": "Ticker",
+      "name": "Name",
+      "exchange": "Exchange",
+      "marketCap": "Market Cap",
+      "entryPrice": "Entry price",
+      "potential": "Potential (%)",
+      "currentPrice": "Current price",
+      "difference": "Change (%)",
+      "priceTarget12m": "12-month target",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "actions": {
+      "details": "Details"
+    }
+  },
+  "modal": {
+    "sections": {
+      "pricingHeader": "Price targets",
+      "highsHeader": "Historical highs",
+      "notesHeader": "Notes",
+      "linksHeader": "Links",
+      "aiModelHeader": "AI model",
+      "metaHeader": "Metadata"
+    },
+    "labels": {
+      "entryPrice": "Entry price",
+      "potential": "Growth potential",
+      "priceTarget6m": "6-month target",
+      "priceTarget12m": "12-month target",
+      "highestPrice1m": "1 month",
+      "highestPrice2m": "2 months",
+      "highestPrice3m": "3 months",
+      "highestPrice6m": "6 months",
+      "highestPrice12m": "12 months",
+      "highestPriceAllTime": "All-time high",
+      "created": "Created:",
+      "lastModified": "Last modified:",
+      "notAvailable": "N/A"
+    }
+  },
+  "common": {
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "errors": {
+    "loadStocksFailed": "Failed to load stocks"
+  }
+}

@@ -17,7 +17,7 @@
           v-if="modelValue.length < 3"
           type="text"
           class="market-cap-input"
-          :placeholder="messages.filters.marketCap.label"
+          :placeholder="$t('filters.marketCap.label')"
           readonly
         />
       </div>
@@ -28,7 +28,7 @@
         v-model="searchTerm"
         type="text"
         class="market-cap-search"
-        :placeholder="messages.filters.marketCap.searchPlaceholder"
+        :placeholder="$t('filters.marketCap.searchPlaceholder')"
       />
 
       <label class="market-cap-select-all">
@@ -38,7 +38,7 @@
           :indeterminate="modelValue.length > 0 && modelValue.length < 3"
           @change="toggleSelectAll"
         />
-        {{ messages.filters.marketCap.selectAll }}
+        {{ $t('filters.marketCap.selectAll') }}
       </label>
 
       <div class="market-cap-options">
@@ -62,9 +62,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useMessages } from '@/locales/useMessages'
+import { useI18n } from 'vue-i18n'
 
-const { messages } = useMessages()
+const { t } = useI18n()
 
 type MarketCapValue = 'small' | 'mid' | 'large'
 
@@ -87,20 +87,20 @@ const emit = defineEmits<Emits>()
 const isOpen = ref(false)
 const searchTerm = ref('')
 
-const options: MarketCapOption[] = [
-  { value: 'small', label: messages.filters.marketCap.small },
-  { value: 'mid', label: messages.filters.marketCap.mid },
-  { value: 'large', label: messages.filters.marketCap.large }
-]
+const options = computed<MarketCapOption[]>(() => [
+  { value: 'small', label: t('filters.marketCap.small') },
+  { value: 'mid', label: t('filters.marketCap.mid') },
+  { value: 'large', label: t('filters.marketCap.large') }
+])
 
 const filteredOptions = computed(() => {
-  return options.filter(opt =>
+  return options.value.filter(opt =>
     opt.label.toLowerCase().includes(searchTerm.value.toLowerCase())
   )
 })
 
 const formatLabel = (value: MarketCapValue): string => {
-  const option = options.find(opt => opt.value === value)
+  const option = options.value.find(opt => opt.value === value)
   return option?.label || value
 }
 

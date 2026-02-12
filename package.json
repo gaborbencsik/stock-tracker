@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "vue": "^3.4.15",
+    "vue-i18n": "^11.2.8",
     "yahoo-finance2": "^3.13.0"
   },
   "devDependencies": {

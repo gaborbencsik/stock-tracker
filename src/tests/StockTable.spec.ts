@@ -1,16 +1,31 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { createI18n } from 'vue-i18n'
 import StockTable from '@/components/StockTable.vue'
-import { messages } from '@/locales/messages'
+import hu from '@/locales/hu/messages.json'
+import en from '@/locales/en/messages.json'
 import type { Stock } from '@/types/Stock'
 
-vi.mock('@/locales/useMessages', () => ({
-  useMessages: () => ({
-    messages,
-    msg: (key: string) => key
+const createTestI18n = () =>
+  createI18n({
+    legacy: false,
+    locale: 'hu',
+    fallbackLocale: 'hu',
+    messages: { hu, en },
+    globalInjection: true,
+    missingWarn: false,
+    fallbackWarn: false
   })
-}))
+
+const mountStockTable = (stocks: Stock[] = []) =>
+  mount(StockTable, {
+    props: { stocks },
+    global: {
+      plugins: [createTestI18n()],
+      stubs: {}
+    }
+  })
 
 describe('StockTable', () => {
   const mockStocks: Stock[] = [
@@ -68,135 +83,87 @@ describe('StockTable', () => {
 
   describe('rendering', () => {
     it('should render table when stocks are provided', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.find('.stocks-table').exists()).toBe(true)
     })
 
     it('should display empty state when no stocks', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: []
-        }
-      })
+      const wrapper = mountStockTable([])
 
       expect(wrapper.find('.empty-state').exists()).toBe(true)
-      expect(wrapper.text()).toContain(messages.table.empty.title)
+      expect(wrapper.text()).toContain(hu.table.empty.title)
     })
 
     it('should render correct number of rows', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const rows = wrapper.findAll('.stock-row')
       expect(rows.length).toBe(mockStocks.length)
     })
 
     it('should display ticker in each row', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('AAPL')
       expect(wrapper.text()).toContain('MSFT')
     })
 
     it('should display stock name in each row', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('Apple Inc.')
       expect(wrapper.text()).toContain('Microsoft Corporation')
     })
 
     it('should display entry price with currency', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('175.50 USD')
       expect(wrapper.text()).toContain('380.00 USD')
     })
 
     it('should display uplift potential with percentage', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('14.2%')
       expect(wrapper.text()).toContain('18.5%')
     })
 
     it('should display created_at date', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('2026-01-15')
       expect(wrapper.text()).toContain('2026-01-20')
     })
 
     it('should display current price with currency', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('182.45 USD')
       expect(wrapper.text()).toContain('395.20 USD')
     })
 
     it('should display current price header', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
-      expect(wrapper.text()).toContain(messages.table.columns.currentPrice)
+      expect(wrapper.text()).toContain(hu.table.columns.currentPrice)
     })
 
     it('should display current price between potential and price target columns', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const headers = wrapper.findAll('th')
-      const potentialIndex = headers.findIndex(th => th.text().includes(messages.table.columns.potential))
-      const currentPriceIndex = headers.findIndex(th => th.text().includes(messages.table.columns.currentPrice))
-      const createdIndex = headers.findIndex(th => th.text().includes(messages.table.columns.created))
+      const potentialIndex = headers.findIndex(th => th.text().includes(hu.table.columns.potential))
+      const currentPriceIndex = headers.findIndex(th => th.text().includes(hu.table.columns.currentPrice))
+      const createdIndex = headers.findIndex(th => th.text().includes(hu.table.columns.created))
 
       expect(potentialIndex).toBeLessThan(currentPriceIndex)
       expect(currentPriceIndex).toBeLessThan(createdIndex)
     })
 
     it('should render details button for each stock', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const buttons = wrapper.findAll('.details-button')
       expect(buttons.length).toBe(mockStocks.length)
@@ -205,11 +172,7 @@ describe('StockTable', () => {
 
   describe('sorting', () => {
     it('should sort by ticker when ticker header is clicked', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       // Verify default is by created_at (descending)
       let rows = wrapper.findAll('.stock-row')
@@ -229,11 +192,7 @@ describe('StockTable', () => {
     })
 
     it('should toggle sort order when clicking same header twice', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const headers = wrapper.findAll('th.sortable')
       const tickerHeader = headers[0]
@@ -254,11 +213,7 @@ describe('StockTable', () => {
     })
 
     it('should display sort indicator', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const headers = wrapper.findAll('th.sortable')
       await headers[0].trigger('click')
@@ -267,11 +222,7 @@ describe('StockTable', () => {
     })
 
     it('should sort by price numerically', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const headers = wrapper.findAll('th.sortable')
       const priceHeader = headers[3] // entry_price column
@@ -286,11 +237,7 @@ describe('StockTable', () => {
 
   describe('interactions', () => {
     it('should emit show-details event when details button is clicked', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const detailsButton = wrapper.find('.details-button')
       const detailsButtonTicker = wrapper.find('.ticker-badge')?.text()
@@ -303,11 +250,7 @@ describe('StockTable', () => {
     })
 
     it('should emit correct stock when different details buttons are clicked', async () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const rows = wrapper.findAll('.stock-row')
       
@@ -327,11 +270,7 @@ describe('StockTable', () => {
 
   describe('potential badge styling', () => {
     it('should apply positive class for positive potential', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       const potentialBadges = wrapper.findAll('.potential-badge')
       expect(potentialBadges[0].classes()).toContain('positive')
@@ -346,11 +285,7 @@ describe('StockTable', () => {
         uplift_potential: -5.3
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [negativeStock]
-        }
-      })
+      const wrapper = mountStockTable([negativeStock])
 
       const potentialBadge = wrapper.find('.potential-badge')
       expect(potentialBadge.classes()).toContain('negative')
@@ -364,21 +299,13 @@ describe('StockTable', () => {
         uplift_potential: -5.3
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [negativeStock]
-        }
-      })
+      const wrapper = mountStockTable([negativeStock])
 
       expect(wrapper.text()).toContain('-5.3%')
     })
 
     it('should display plus sign for positive potential', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('+14.2%')
     })
@@ -386,33 +313,21 @@ describe('StockTable', () => {
 
   describe('market cap display', () => {
     it('should display market cap for each stock', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       expect(wrapper.text()).toContain('large')
     })
 
     it('should display market cap for small cap stock', () => {
       const smallCapStock = { ...mockStocks[0], market_cap: 'small' as const }
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [smallCapStock]
-        }
-      })
+      const wrapper = mountStockTable([smallCapStock])
 
       expect(wrapper.text()).toContain('small')
     })
 
     it('should display market cap for mid cap stock', () => {
       const midCapStock = { ...mockStocks[0], market_cap: 'mid' as const }
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [midCapStock]
-        }
-      })
+      const wrapper = mountStockTable([midCapStock])
 
       expect(wrapper.text()).toContain('mid')
     })
@@ -422,9 +337,7 @@ describe('StockTable', () => {
         { ...mockStocks[0], market_cap: 'small' as const },
         { ...mockStocks[1], market_cap: 'large' as const }
       ]
-      const wrapper = mount(StockTable, {
-        props: { stocks }
-      })
+      const wrapper = mountStockTable(stocks)
 
       const text = wrapper.text()
       expect(text).toContain('small')
@@ -434,11 +347,7 @@ describe('StockTable', () => {
 
   describe('difference column display', () => {
     it('should display dash when difference is null', () => {
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: mockStocks
-        }
-      })
+      const wrapper = mountStockTable(mockStocks)
 
       // Find cells with just "-" text in the difference column
       const dashCells = wrapper.findAll('td').filter(cell => 
@@ -456,11 +365,7 @@ describe('StockTable', () => {
         difference: 4.25
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [stockWithDifference]
-        }
-      })
+      const wrapper = mountStockTable([stockWithDifference])
 
       const differenceBadges = wrapper.findAll('.difference-badge')
       expect(differenceBadges.length).toBeGreaterThan(0)
@@ -475,11 +380,7 @@ describe('StockTable', () => {
         difference: 5.0
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [stockWithPositiveDifference]
-        }
-      })
+      const wrapper = mountStockTable([stockWithPositiveDifference])
 
       const differenceBadge = wrapper.find('.difference-badge')
       expect(differenceBadge.classes()).toContain('positive')
@@ -493,11 +394,7 @@ describe('StockTable', () => {
         difference: -3.5
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [stockWithNegativeDifference]
-        }
-      })
+      const wrapper = mountStockTable([stockWithNegativeDifference])
 
       const differenceBadge = wrapper.find('.difference-badge')
       expect(differenceBadge.classes()).toContain('negative')
@@ -511,11 +408,7 @@ describe('StockTable', () => {
         difference: 2.75
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [stockWithPositiveDifference]
-        }
-      })
+      const wrapper = mountStockTable([stockWithPositiveDifference])
 
       expect(wrapper.text()).toContain('+2.75%')
     })
@@ -528,11 +421,7 @@ describe('StockTable', () => {
         difference: -1.5
       }
 
-      const wrapper = mount(StockTable, {
-        props: {
-          stocks: [stockWithNegativeDifference]
-        }
-      })
+      const wrapper = mountStockTable([stockWithNegativeDifference])
 
       expect(wrapper.text()).toContain('-1.50%')
     })
@@ -543,9 +432,7 @@ describe('StockTable', () => {
         { ...mockStocks[0], id: 2, ticker: 'B', difference: 2.0 }
       ]
 
-      const wrapper = mount(StockTable, {
-        props: { stocks }
-      })
+      const wrapper = mountStockTable(stocks)
 
       // Find the difference header and click it
       const headers = wrapper.findAll('th.sortable')

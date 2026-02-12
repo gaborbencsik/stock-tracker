@@ -21,74 +21,74 @@
 
           <div class="pricing-section">
             <div class="entry-price-card">
-              <label>{{ messages.modal.labels.entryPrice }}</label>
+              <label>{{ $t('modal.labels.entryPrice') }}</label>
               <div class="price-value">{{ formatPrice(stock.entry_price) }} {{ stock.currency }}</div>
             </div>
             <div class="potential-card" :class="potentialClass">
-              <label>{{ messages.modal.labels.potential }}</label>
+              <label>{{ $t('modal.labels.potential') }}</label>
               <div class="potential-value">{{ stock.uplift_potential > 0 ? '+' : '' }}{{ stock.uplift_potential.toFixed(1) }}%</div>
             </div>
             <div class="current-price-card">
-              <label>{{ messages.table.columns.currentPrice }}</label>
+              <label>{{ $t('table.columns.currentPrice') }}</label>
               <div class="price-value">{{ formatPrice(stock.current_price) }} {{ stock.currency }}</div>
             </div>
             <div v-if="stock.difference !== null" class="difference-card" :class="stock.difference >= 0 ? 'positive' : 'negative'">
-              <label>{{ messages.table.columns.difference }}</label>
+              <label>{{ $t('table.columns.difference') }}</label>
               <div class="difference-value">{{ stock.difference > 0 ? '+' : '' }}{{ stock.difference.toFixed(2) }}%</div>
             </div>
           </div>
 
           <div class="targets-section">
-            <h3>{{ messages.modal.sections.pricingHeader }}</h3>
+            <h3>{{ $t('modal.sections.pricingHeader') }}</h3>
             <div class="targets-grid">
               <div class="target-card">
-                <label>{{ messages.modal.labels.priceTarget6m }}</label>
+                <label>{{ $t('modal.labels.priceTarget6m') }}</label>
                 <div class="target-value">{{ formatPrice(stock.six_months_price_target) }} {{ stock.currency }}</div>
               </div>
               <div class="target-card">
-                <label>{{ messages.modal.labels.priceTarget12m }}</label>
+                <label>{{ $t('modal.labels.priceTarget12m') }}</label>
                 <div class="target-value">{{ formatPrice(stock.twelve_months_price_target) }} {{ stock.currency }}</div>
               </div>
             </div>
           </div>
 
           <div class="highs-section">
-            <h3>{{ messages.modal.sections.highsHeader }}</h3>
+            <h3>{{ $t('modal.sections.highsHeader') }}</h3>
             <div class="highs-timeline">
               <div class="high-item">
-                <label>{{ messages.modal.labels.highestPrice1m }}</label>
+                <label>{{ $t('modal.labels.highestPrice1m') }}</label>
                 <span>{{ formatPrice(stock.one_month_highest_price) }}</span>
               </div>
               <div class="high-item">
-                <label>{{ messages.modal.labels.highestPrice2m }}</label>
+                <label>{{ $t('modal.labels.highestPrice2m') }}</label>
                 <span>{{ formatPrice(stock.two_months_highest_price) }}</span>
               </div>
               <div class="high-item">
-                <label>{{ messages.modal.labels.highestPrice3m }}</label>
+                <label>{{ $t('modal.labels.highestPrice3m') }}</label>
                 <span>{{ formatPrice(stock.three_months_highest_price) }}</span>
               </div>
               <div class="high-item">
-                <label>{{ messages.modal.labels.highestPrice6m }}</label>
+                <label>{{ $t('modal.labels.highestPrice6m') }}</label>
                 <span>{{ formatPrice(stock.six_months_highest_price) }}</span>
               </div>
               <div class="high-item">
-                <label>{{ messages.modal.labels.highestPrice12m }}</label>
+                <label>{{ $t('modal.labels.highestPrice12m') }}</label>
                 <span>{{ formatPrice(stock.twelve_months_highest_price) }}</span>
               </div>
               <div class="high-item highlight">
-                <label>{{ messages.modal.labels.highestPriceAllTime }}</label>
+                <label>{{ $t('modal.labels.highestPriceAllTime') }}</label>
                 <span>{{ formatPrice(stock.highest_price) }}</span>
               </div>
             </div>
           </div>
 
           <div v-if="stock.notes" class="notes-section">
-            <h3>{{ messages.modal.sections.notesHeader }}</h3>
+            <h3>{{ $t('modal.sections.notesHeader') }}</h3>
             <p>{{ stock.notes }}</p>
           </div>
 
           <div v-if="parsedLinks.length > 0" class="links-section">
-            <h3>{{ messages.modal.sections.linksHeader }}</h3>
+            <h3>{{ $t('modal.sections.linksHeader') }}</h3>
             <div class="links-grid">
               <a 
                 v-for="(link, index) in parsedLinks" 
@@ -107,7 +107,7 @@
           </div>
 
           <div v-if="stock.agent" class="ai-model-section">
-            <h3>{{ messages.modal.sections.aiModelHeader }}</h3>
+            <h3>{{ $t('modal.sections.aiModelHeader') }}</h3>
             <div class="agent-chip">
               {{ stock.agent }}
             </div>
@@ -115,11 +115,11 @@
 
           <div class="meta-section">
             <div class="meta-item">
-              <label>{{ messages.modal.labels.created }}</label>
+              <label>{{ $t('modal.labels.created') }}</label>
               <span>{{ formatDateTime(stock.created_at) }}</span>
             </div>
             <div class="meta-item">
-              <label>{{ messages.modal.labels.lastModified }}</label>
+              <label>{{ $t('modal.labels.lastModified') }}</label>
               <span>{{ formatDateTime(stock.last_modified) }}</span>
             </div>
           </div>
@@ -131,11 +131,11 @@
 
 <script setup lang="ts">
 import { computed, watch, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { Stock } from '@/types/Stock'
 import { formatDateTime } from '@/utils/dateFormatter'
-import { useMessages } from '@/locales/useMessages'
 
-const { messages } = useMessages()
+useI18n()
 
 interface Props {
   stock: Stock | null

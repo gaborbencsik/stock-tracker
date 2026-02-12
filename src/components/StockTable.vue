@@ -5,8 +5,8 @@
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
-      <h3>{{ messages.table.empty.title }}</h3>
-      <p>{{ messages.table.empty.description }}</p>
+      <h3>{{ $t('table.empty.title') }}</h3>
+      <p>{{ $t('table.empty.description') }}</p>
     </div>
 
     <div v-else class="table-wrapper">
@@ -14,60 +14,60 @@
         <thead>
           <tr>
             <th @click="handleSort('ticker')" class="sortable">
-              {{ messages.table.columns.ticker }}
+              {{ $t('table.columns.ticker') }}
               <span v-if="sortKey === 'ticker'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('name')" class="sortable">
-              {{ messages.table.columns.name }}
+              {{ $t('table.columns.name') }}
               <span v-if="sortKey === 'name'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('stock_exchange')" class="sortable">
-              {{ messages.table.columns.exchange }}
+              {{ $t('table.columns.exchange') }}
               <span v-if="sortKey === 'stock_exchange'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('market_cap')" class="sortable">
-              {{ messages.table.columns.marketCap }}
+              {{ $t('table.columns.marketCap') }}
               <span v-if="sortKey === 'market_cap'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('entry_price')" class="sortable">
-              {{ messages.table.columns.entryPrice }}
+              {{ $t('table.columns.entryPrice') }}
               <span v-if="sortKey === 'entry_price'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('uplift_potential')" class="sortable">
-              {{ messages.table.columns.potential }}
+              {{ $t('table.columns.potential') }}
               <span v-if="sortKey === 'uplift_potential'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('current_price')" class="sortable">
-              {{ messages.table.columns.currentPrice }}
+              {{ $t('table.columns.currentPrice') }}
               <span v-if="sortKey === 'current_price'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('difference')" class="sortable">
-              {{ messages.table.columns.difference }}
+              {{ $t('table.columns.difference') }}
               <span v-if="sortKey === 'difference'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
             <th @click="handleSort('created_at')" class="sortable">
-              {{ messages.table.columns.created }}
+              {{ $t('table.columns.created') }}
               <span v-if="sortKey === 'created_at'" class="sort-indicator">
                 {{ sortOrder === 'asc' ? '↑' : '↓' }}
               </span>
             </th>
-            <th>{{ messages.table.columns.actions }}</th>
+            <th>{{ $t('table.columns.actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -108,7 +108,7 @@
                 @click="handleDetails(stock)"
                 class="details-button"
               >
-                {{ messages.table.actions.details }}
+                {{ $t('table.actions.details') }}
               </button>
             </td>
           </tr>
@@ -120,11 +120,11 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { Stock } from '@/types/Stock'
 import { formatDateOnly } from '@/utils/dateFormatter'
-import { useMessages } from '@/locales/useMessages'
 
-const { messages } = useMessages()
+const { t } = useI18n()
 
 interface Props {
   stocks: Stock[]

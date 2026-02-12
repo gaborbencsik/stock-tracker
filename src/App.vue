@@ -2,14 +2,17 @@
   <div id="app">
     <header class="app-header">
       <div class="header-content">
-        <h1 class="app-title">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 3v18h18"/>
-            <path d="m19 9-5 5-4-4-3 3"/>
-          </svg>
-          {{ messages.header.title }}
-        </h1>
-        <p class="app-subtitle">{{ messages.header.subtitle }}</p>
+        <div class="header-left">
+          <h1 class="app-title">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18"/>
+              <path d="m19 9-5 5-4-4-3 3"/>
+            </svg>
+            {{ $t('header.title') }}
+          </h1>
+          <p class="app-subtitle">{{ $t('header.subtitle') }}</p>
+        </div>
+        <LanguageSwitcher />
       </div>
     </header>
 
@@ -29,7 +32,7 @@
             >
               <path d="M6 9l6 6 6-6"/>
             </svg>
-            {{ filtersVisible ? messages.filters.toggleHide : messages.filters.toggleShow }}
+            {{ filtersVisible ? $t('filters.toggleHide') : $t('filters.toggleShow') }}
             <span v-if="activeFiltersCount > 0" class="filter-badge">
               {{ activeFiltersCount }}
             </span>
@@ -68,14 +71,15 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import StockTable from './components/StockTable.vue'
 import StockModal from './components/StockModal.vue'
 import StockFilters from './components/StockFilters.vue'
+import LanguageSwitcher from './components/LanguageSwitcher.vue'
 import { useStocks } from './composables/useStocks'
-import { useMessages } from './locales/useMessages'
 import type { Stock, StockFilters as StockFiltersType } from './types/Stock'
 
-const { messages } = useMessages()
+const { t } = useI18n()
 
 const {
   loading,

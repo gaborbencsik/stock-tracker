@@ -1,14 +1,20 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createI18n } from 'vue-i18n'
 import MarketCapSelect from '@/components/MarketCapSelect.vue'
-import { messages } from '@/locales/messages'
+import hu from '@/locales/hu/messages.json'
+import en from '@/locales/en/messages.json'
 
-vi.mock('@/locales/useMessages', () => ({
-  useMessages: () => ({
-    messages,
-    msg: (key: string) => key
+const createTestI18n = () =>
+  createI18n({
+    legacy: false,
+    locale: 'hu',
+    fallbackLocale: 'hu',
+    messages: { hu, en },
+    globalInjection: true,
+    missingWarn: false,
+    fallbackWarn: false
   })
-}))
 
 describe('MarketCapSelect', () => {
   const defaultProps = {
@@ -20,6 +26,10 @@ describe('MarketCapSelect', () => {
       props: {
         ...defaultProps,
         ...props
+      },
+      global: {
+        plugins: [createTestI18n()],
+        stubs: {}
       }
     })
   }
