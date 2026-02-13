@@ -21,7 +21,7 @@ export default defineConfig({
         '*.config.*',
         'src/main.ts',
       ],
-      include: ['src/**/*.{ts,vue}']
+      include: ['src/**/*.{ts,vue}', 'lib/**/*.ts']
     }
   }
 })
