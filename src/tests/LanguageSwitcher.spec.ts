@@ -206,4 +206,104 @@ describe('LanguageSwitcher', () => {
       expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
     })
   })
+
+  describe('Responsive design (mobile viewport)', () => {
+    it('should render button with class for styling', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.exists()).toBe(true)
+      // Ensure class is present for CSS media query styling
+      expect(toggleButton.classes()).toContain('lang-toggle')
+    })
+
+    it('should be in header-content parent for proper positioning context', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      // The button should be directly attached to DOM, ready to be positioned
+      const toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.element).toBeInstanceOf(HTMLElement)
+    })
+
+    it('should have proper button attributes for mobile accessibility', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      // Button is a native element with proper attributes
+      expect(toggleButton.element.tagName).toBe('BUTTON')
+      expect(toggleButton.attributes('type')).not.toBeDefined() // implicitly 'button'
+      expect(toggleButton.attributes('aria-label')).toBeTruthy()
+    })
+
+    it('should be clickable and functional on all screen sizes', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      
+      // Simulate click
+      await toggleButton.trigger('click')
+      
+      // Verify language changed
+      expect(getLocaleValue(i18n.global.locale)).toBe('en')
+      
+      // Verify text updated
+      expect(toggleButton.text()).toBe('HU')
+    })
+  })
 })

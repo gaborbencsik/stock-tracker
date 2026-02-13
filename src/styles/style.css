@@ -890,7 +890,7 @@ h3 {
   }
 
   .header-content {
-    padding: 0;
+    padding: 0 40px 0 0;
   }
 
   .app-title {

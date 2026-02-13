@@ -50,6 +50,7 @@ watch(locale, (newLocale) => {
   position: absolute;
   top: 24px;
   right: 40px;
+  z-index: 100;
 }
 
 .lang-toggle:hover {
@@ -59,5 +60,15 @@ watch(locale, (newLocale) => {
 
 .lang-toggle:active {
   transform: scale(0.98);
+}
+
+/* Mobile viewport (< 768px) */
+@media (max-width: 767px) {
+  .lang-toggle {
+    top: 16px;
+    right: 16px;
+    padding: 8px 16px;
+    font-size: 12px;
+  }
 }
 </style>
