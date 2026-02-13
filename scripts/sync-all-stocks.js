@@ -74,7 +74,6 @@ async function writeStocksFile(filePath, stocks) {
 
 async function fetchPrice(yahooTicker) {
   const quote = await yahooFinance.quote(yahooTicker)
-  console.log(quote)
   
   const price = quote?.regularMarketPrice
   
