@@ -1,60 +1,63 @@
 <template>
-  <div class="language-switcher">
-    <button
-      v-for="lang in languages"
-      :key="lang"
-      :class="{ active: currentLanguage === lang }"
-      @click="changeLanguage(lang)"
-      class="lang-btn"
-    >
-      {{ lang.toUpperCase() }}
-    </button>
-  </div>
+  <button
+    class="lang-toggle"
+    @click="toggleLanguage"
+    :aria-label="ariaLabel"
+  >
+    {{ nextLanguage.toUpperCase() }}
+  </button>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const { locale } = useI18n()
-const languages = ['hu', 'en']
-const currentLanguage = ref(locale.value || 'hu')
+const currentLanguage = ref<'hu' | 'en'>(locale.value as 'hu' | 'en' || 'hu')
 
-const changeLanguage = (lang: string): void => {
-  locale.value = lang as 'hu' | 'en'
-  currentLanguage.value = lang
-  localStorage.setItem('app-language', lang)
+const nextLanguage = computed((): 'hu' | 'en' => {
+  return currentLanguage.value === 'hu' ? 'en' : 'hu'
+})
+
+const ariaLabel = computed((): string => {
+  return `Switch to ${nextLanguage.value === 'hu' ? 'Hungarian' : 'English'}`
+})
+
+const toggleLanguage = (): void => {
+  const newLocale = nextLanguage.value
+  locale.value = newLocale
+  currentLanguage.value = newLocale
+  localStorage.setItem('app-language', newLocale)
 }
 
 watch(locale, (newLocale) => {
-  currentLanguage.value = newLocale || 'hu'
+  currentLanguage.value = (newLocale || 'hu') as 'hu' | 'en'
 })
 </script>
 
 <style scoped>
-.language-switcher {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.lang-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  background: white;
+.lang-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
   cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.3s;
-  font-size: 0.875rem;
-  font-weight: 500;
+  position: absolute;
+  top: 24px;
+  right: 40px;
 }
 
-.lang-btn.active {
-  background: #007bff;
-  color: white;
-  border-color: #0056b3;
+.lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-.lang-btn:hover {
-  border-color: #007bff;
+.lang-toggle:active {
+  transform: scale(0.98);
 }
 </style>

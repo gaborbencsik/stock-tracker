@@ -31,6 +31,7 @@ body {
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
 }
 
 .app-title {

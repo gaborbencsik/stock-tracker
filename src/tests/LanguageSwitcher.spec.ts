@@ -29,150 +29,181 @@ describe('LanguageSwitcher', () => {
     localStorage.clear()
   })
 
-  it('should render language buttons for both supported languages', () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
+  describe('New language toggle button design', () => {
+    it('should render a single toggle button instead of multiple language buttons', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.exists()).toBe(true)
     })
 
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
+    it('should display the language to switch TO, not the current language', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      // When current is HU, button should show EN (the language we can switch TO)
+      expect(toggleButton.text()).toBe('EN')
     })
 
-    const buttons = wrapper.findAll('.lang-btn')
-    expect(buttons).toHaveLength(2)
-    expect(buttons[0].text()).toContain('HU')
-    expect(buttons[1].text()).toContain('EN')
-  })
+    it('should switch language and update button text when clicked', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
 
-  it('should mark current locale as active', () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('EN')
+
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      // After clicking EN button, locale should be 'en' and button should show 'HU'
+      expect(getLocaleValue(i18n.global.locale)).toBe('en')
+
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('HU')
     })
 
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
+    it('should persist language selection to localStorage with new toggle button', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      await toggleButton.trigger('click')
+
+      expect(localStorage.getItem('app-language')).toBe('en')
     })
 
-    const buttons = wrapper.findAll('.lang-btn')
-    expect(buttons[0].classes()).toContain('active')
-    expect(buttons[1].classes()).not.toContain('active')
-  })
+    it('should toggle between both languages correctly on multiple clicks', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
 
-  it('should change locale when language button is clicked', async () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('EN')
+
+      // Click 1: HU -> EN
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('HU')
+
+      // Click 2: EN -> HU
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('EN')
     })
 
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
+    it('should react to external locale changes', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      // Simulate external locale change via toggle button click
+      let toggleButton = wrapper.find('.lang-toggle')
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('HU')
     })
 
-    const enButton = wrapper.findAll('.lang-btn')[1]
-    await enButton.trigger('click')
+    it('should have proper accessibility attributes', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
 
-    expect(getLocaleValue(i18n.global.locale)).toBe('en')
-  })
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
 
-  it('should persist language selection to localStorage', async () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
+      const toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
     })
-
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
-    })
-
-    const enButton = wrapper.findAll('.lang-btn')[1]
-    await enButton.trigger('click')
-
-    expect(localStorage.getItem('app-language')).toBe('en')
-  })
-
-  it('should update active state after language change', async () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
-    })
-
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
-    })
-
-    let buttons = wrapper.findAll('.lang-btn')
-    expect(buttons[0].classes()).toContain('active')
-    expect(buttons[1].classes()).not.toContain('active')
-
-    const enButton = buttons[1]
-    await enButton.trigger('click')
-    await wrapper.vm.$nextTick()
-
-    buttons = wrapper.findAll('.lang-btn')
-    expect(buttons[0].classes()).not.toContain('active')
-    expect(buttons[1].classes()).toContain('active')
-  })
-
-  it('should react to external locale changes', async () => {
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'hu',
-      fallbackLocale: 'hu',
-      messages: { hu, en },
-      globalInjection: true,
-      missingWarn: false,
-      fallbackWarn: false
-    })
-
-    const wrapper = mount(LanguageSwitcher, {
-      global: {
-        plugins: [i18n]
-      }
-    })
-
-    // Simulate external locale change via click on en button
-    const enButton = wrapper.findAll('.lang-btn')[1]
-    await enButton.trigger('click')
-    await wrapper.vm.$nextTick()
-
-    const buttons = wrapper.findAll('.lang-btn')
-    expect(buttons[1].classes()).toContain('active')
   })
 })
