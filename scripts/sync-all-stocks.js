@@ -112,7 +112,7 @@ function commitAndPush(filePath, projectRoot) {
 
     execSync(`git -C "${projectRoot}" add "${filePath}"`, { stdio: 'pipe' })
     execSync(`git -C "${projectRoot}" commit -m "update data at ${timestamp}"`, { stdio: 'pipe' })
-    // execSync(`git -C "${projectRoot}" push`, { stdio: 'pipe' })
+    execSync(`git -C "${projectRoot}" push`, { stdio: 'pipe' })
 
     return true
   } catch (error) {

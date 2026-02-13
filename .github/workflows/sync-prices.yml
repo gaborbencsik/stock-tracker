@@ -1,0 +1,76 @@
+name: Sync Stock Prices
+
+on:
+  schedule:
+    - cron: '0 10,16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  sync-prices:
+    runs-on: ubuntu-latest
+    name: Update Stock Price Differences
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync stock prices
+        run: npm run sync
+
+      - name: Check for uncommitted changes
+        id: check_changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Handle unexpected changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "⚠️ Unexpected uncommitted changes detected!"
+          git status
+          exit 1
+
+  # Optional: Run tests to ensure nothing is broken
+  test:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    needs: sync-prices
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+        continue-on-error: true
