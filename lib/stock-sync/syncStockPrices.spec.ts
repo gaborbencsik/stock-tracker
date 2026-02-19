@@ -148,6 +148,107 @@ describe('syncStockPrices', () => {
       expect(updatedStock.notes).toBe('Important note')
       expect(updatedStock.links).toBe('https://example.com')
     })
+
+    it('should set highest_price when it is null', () => {
+      const stock: Stock = {
+        id: 1,
+        ticker: 'TEST',
+        name: 'Test Stock',
+        yahoo_ticker: 'TEST.DE',
+        stock_exchange: 'Frankfurt',
+        currency: 'EUR',
+        market_cap: 'mid',
+        entry_price: 100,
+        current_price: 100,
+        difference: 0,
+        uplift_potential: 10,
+        six_months_price_target: null,
+        twelve_months_price_target: null,
+        one_month_highest_price: null,
+        two_months_highest_price: null,
+        three_months_highest_price: null,
+        six_months_highest_price: null,
+        twelve_months_highest_price: null,
+        highest_price: null,
+        notes: '',
+        links: '',
+        agent: 'Test',
+        last_modified: '2026-02-13 10:00',
+        created_at: '2026-02-13',
+      }
+
+      const updatedStock = updateStockWithPrice(stock, 150)
+
+      expect(updatedStock.highest_price).toBe(150)
+    })
+
+    it('should update highest_price when new price exceeds existing highest_price', () => {
+      const stock: Stock = {
+        id: 1,
+        ticker: 'TEST',
+        name: 'Test Stock',
+        yahoo_ticker: 'TEST.DE',
+        stock_exchange: 'Frankfurt',
+        currency: 'EUR',
+        market_cap: 'mid',
+        entry_price: 100,
+        current_price: 120,
+        difference: 20,
+        uplift_potential: 10,
+        six_months_price_target: null,
+        twelve_months_price_target: null,
+        one_month_highest_price: null,
+        two_months_highest_price: null,
+        three_months_highest_price: null,
+        six_months_highest_price: null,
+        twelve_months_highest_price: null,
+        highest_price: 130,
+        notes: '',
+        links: '',
+        agent: 'Test',
+        last_modified: '2026-02-13 10:00',
+        created_at: '2026-02-13',
+      }
+
+      const updatedStock = updateStockWithPrice(stock, 145)
+
+      expect(updatedStock.highest_price).toBe(145)
+      expect(updatedStock.current_price).toBe(145)
+    })
+
+    it('should keep highest_price when new price is lower', () => {
+      const stock: Stock = {
+        id: 1,
+        ticker: 'TEST',
+        name: 'Test Stock',
+        yahoo_ticker: 'TEST.DE',
+        stock_exchange: 'Frankfurt',
+        currency: 'EUR',
+        market_cap: 'mid',
+        entry_price: 100,
+        current_price: 120,
+        difference: 20,
+        uplift_potential: 10,
+        six_months_price_target: null,
+        twelve_months_price_target: null,
+        one_month_highest_price: null,
+        two_months_highest_price: null,
+        three_months_highest_price: null,
+        six_months_highest_price: null,
+        twelve_months_highest_price: null,
+        highest_price: 150,
+        notes: '',
+        links: '',
+        agent: 'Test',
+        last_modified: '2026-02-13 10:00',
+        created_at: '2026-02-13',
+      }
+
+      const updatedStock = updateStockWithPrice(stock, 140)
+
+      expect(updatedStock.highest_price).toBe(150)
+      expect(updatedStock.current_price).toBe(140)
+    })
   })
 
   describe('updateStockTimestamp', () => {

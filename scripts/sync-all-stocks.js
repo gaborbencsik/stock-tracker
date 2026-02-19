@@ -84,6 +84,11 @@ async function fetchPrice(yahooTicker) {
   return price
 }
 
+function updateHighestPrice(stock, newPrice) {
+  const shouldUpdateHighest = stock.highest_price === null || newPrice > stock.highest_price
+  return shouldUpdateHighest ? newPrice : stock.highest_price
+}
+
 const GIT_NO_CHANGES_ERROR = 'nothing to commit'
 
 function hasChanges(oldStocks, newStocks) {
@@ -95,7 +100,8 @@ function hasChanges(oldStocks, newStocks) {
     const newStock = newStocks[index]
     return (
       oldStock.current_price !== newStock.current_price ||
-      oldStock.difference !== newStock.difference
+      oldStock.difference !== newStock.difference ||
+      oldStock.highest_price !== newStock.highest_price
     )
   })
 }
@@ -110,9 +116,9 @@ function commitAndPush(filePath, projectRoot) {
       minute: '2-digit',
     })
 
-    execSync(`git -C "${projectRoot}" add "${filePath}"`, { stdio: 'pipe' })
-    execSync(`git -C "${projectRoot}" commit -m "update data at ${timestamp}"`, { stdio: 'pipe' })
-    execSync(`git -C "${projectRoot}" push`, { stdio: 'pipe' })
+    // execSync(`git -C "${projectRoot}" add "${filePath}"`, { stdio: 'pipe' })
+    // execSync(`git -C "${projectRoot}" commit -m "update data at ${timestamp}"`, { stdio: 'pipe' })
+    // execSync(`git -C "${projectRoot}" push`, { stdio: 'pipe' })
 
     return true
   } catch (error) {
@@ -148,11 +154,13 @@ async function syncStockPrices() {
 
       const currentPrice = await fetchPrice(stock.yahoo_ticker)
       const difference = calculatePriceDifference(stock.entry_price, currentPrice)
+      const highestPrice = updateHighestPrice(stock, currentPrice)
 
       updatedStocks[i] = {
         ...stock,
         current_price: currentPrice,
         difference,
+        highest_price: highestPrice,
         last_modified: getCurrentTimestamp(),
       }
 

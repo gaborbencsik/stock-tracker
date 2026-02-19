@@ -48,10 +48,15 @@ export function updateStockWithPrice(stock: Stock, newPrice: number): Stock {
 
   const difference = calculatePriceDifference(stock.entry_price, newPrice)
 
+  // Update highest_price if current price exceeds it or if highest_price is null
+  const shouldUpdateHighest = stock.highest_price === null || newPrice > stock.highest_price
+  const highestPrice = shouldUpdateHighest ? newPrice : stock.highest_price
+
   return {
     ...stock,
     current_price: newPrice,
     difference,
+    highest_price: highestPrice,
   }
 }
 
