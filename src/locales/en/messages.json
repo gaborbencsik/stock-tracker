@@ -50,6 +50,10 @@
       "title": "No stocks to display",
       "description": "Try adjusting the filters"
     },
+    "views": {
+      "basicInfos": "Basic infos",
+      "priceChanges": "Price changes"
+    },
     "columns": {
       "ticker": "Ticker",
       "name": "Name",
@@ -61,6 +65,8 @@
       "difference": "Change (%)",
       "priceTarget12m": "12-month target",
       "created": "Created",
+      "highestPrice": "Max price",
+      "maxPriceChange": "Max change (%)",
       "actions": "Actions"
     },
     "actions": {

@@ -18,9 +18,12 @@ const createTestI18n = () =>
     fallbackWarn: false
   })
 
-const mountStockTable = (stocks: Stock[] = []) =>
+const mountStockTable = (
+  stocks: Stock[] = [],
+  currentView: 'basicInfos' | 'priceChanges' = 'basicInfos'
+) =>
   mount(StockTable, {
-    props: { stocks },
+    props: { stocks, currentView },
     global: {
       plugins: [createTestI18n()],
       stubs: {}
@@ -446,6 +449,68 @@ describe('StockTable', () => {
         const firstTicker = rows[0].find('.ticker-badge')?.text()
         expect(firstTicker).toBe('B') // Lower difference first (ascending)
       }
+    })
+  })
+
+  describe('view toggle', () => {
+    it('should display different columns for Basic infos view', () => {
+      const wrapper = mountStockTable(mockStocks, 'basicInfos')
+
+      // Check that basic columns are visible
+      expect(wrapper.text()).toContain(hu.table.columns.ticker)
+      expect(wrapper.text()).toContain(hu.table.columns.name)
+      expect(wrapper.text()).toContain(hu.table.columns.exchange)
+      expect(wrapper.text()).toContain(hu.table.columns.marketCap)
+      expect(wrapper.text()).toContain(hu.table.columns.entryPrice)
+      expect(wrapper.text()).toContain(hu.table.columns.currentPrice)
+    })
+
+    it('should display Price changes columns when view prop is priceChanges', () => {
+      const wrapper = mountStockTable(mockStocks, 'priceChanges')
+
+      // Check Price changes specific columns
+      expect(wrapper.text()).toContain(hu.table.columns.ticker)
+      expect(wrapper.text()).toContain(hu.table.columns.name)
+      expect(wrapper.text()).toContain(hu.table.columns.potential)
+      expect(wrapper.text()).toContain(hu.table.columns.entryPrice)
+      expect(wrapper.text()).toContain(hu.table.columns.currentPrice)
+      expect(wrapper.text()).toContain(hu.table.columns.highestPrice)
+      expect(wrapper.text()).toContain(hu.table.columns.maxPriceChange)
+    })
+
+    it('should calculate max price change percentage correctly', () => {
+      const stock: Stock = {
+        ...mockStocks[0],
+        id: 3,
+        entry_price: 100,
+        highest_price: 150
+      }
+
+      const wrapper = mountStockTable([stock], 'priceChanges')
+
+      // eslint-disable-next-line no-undef
+      const component = wrapper.vm as any
+      const maxChange = component.calculateMaxPriceChange(stock)
+
+      // ((150 - 100) / 100) * 100 = 50%
+      expect(maxChange).toBe(50)
+    })
+
+    it('should return 0 when highest_price is null', () => {
+      const stock: Stock = {
+        ...mockStocks[0],
+        id: 4,
+        entry_price: 100,
+        highest_price: null
+      }
+
+      const wrapper = mountStockTable([stock], 'priceChanges')
+
+      // eslint-disable-next-line no-undef
+      const component = wrapper.vm as any
+      const maxChange = component.calculateMaxPriceChange(stock)
+
+      expect(maxChange).toBe(0)
     })
   })
 })

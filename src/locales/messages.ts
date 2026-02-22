@@ -60,6 +60,10 @@ export const messages = {
       title: 'Nincs megjeleníthető részvény',
       description: 'Próbáld meg módosítani a szűrőket'
     },
+    views: {
+      basicInfos: 'Alapinfók',
+      priceChanges: 'Árváltozások'
+    },
     columns: {
       ticker: 'Ticker',
       name: 'Név',
@@ -71,6 +75,8 @@ export const messages = {
       difference: 'Változás (%)',
       priceTarget12m: '12 hónapos cél',
       created: 'Létrehozva',
+      highestPrice: 'Max ár',
+      maxPriceChange: 'Max változás (%)',
       actions: 'Műveletek'
     },
     actions: {

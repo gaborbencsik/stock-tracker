@@ -245,6 +245,59 @@ body {
   color: white;
 }
 
+/* Controls container - filters and view toggle together */
+
+.controls-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filters-toggle-container {
+  display: flex;
+}
+
+.view-toggle-container-header {
+  display: flex;
+  gap: 8px;
+}
+
+.filters-toggle-btn,
+.view-toggle-btn-header {
+  margin-right: 20px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #4b5563;
+  border: 2px solid #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filters-toggle-btn:hover,
+.view-toggle-btn-header:hover {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.view-toggle-btn-header.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.view-toggle-btn-header.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
 /* Stock table */
 
 .table-container {
@@ -990,6 +1043,24 @@ h3 {
     min-height: 80px;
   }
 
+  /* Controls responsive */
+  .controls-container {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .filters-toggle-btn,
+  .view-toggle-btn-header {
+    margin-right: 20px;
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .view-toggle-container-header {
+    gap: 6px;
+  }
+
   /* Table responsive - CARD VIEW */
   .table-wrapper {
     overflow: visible;
@@ -1466,6 +1537,23 @@ h3 {
   .filter-select {
     padding: 8px 10px;
     font-size: 12px;
+  }
+
+  /* Controls - extra small */
+  .controls-container {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .filters-toggle-btn,
+  .view-toggle-btn-header {
+    padding: 6px 10px;
+    font-size: 11px;
+    border-radius: 4px;
+  }
+
+  .view-toggle-container-header {
+    gap: 4px;
   }
 
   /* Table - Card View Mobile Optimized */

@@ -18,25 +18,44 @@
 
     <main class="app-main">
       <div class="container">
-        <div class="filters-toggle-container">
-          <button class="filters-toggle-btn" @click="toggleFilters">
-            <svg 
-              class="toggle-icon" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              stroke-width="2"
-              :style="{ transform: filtersVisible ? 'rotate(180deg)' : 'rotate(0deg)' }"
-            >
-              <path d="M6 9l6 6 6-6"/>
-            </svg>
-            {{ filtersVisible ? $t('filters.toggleHide') : $t('filters.toggleShow') }}
-            <span v-if="activeFiltersCount > 0" class="filter-badge">
-              {{ activeFiltersCount }}
-            </span>
-          </button>
+        <div class="controls-container">
+          <div class="filters-toggle-container">
+            <button class="filters-toggle-btn" @click="toggleFilters">
+              <svg 
+                class="toggle-icon" 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2"
+                :style="{ transform: filtersVisible ? 'rotate(180deg)' : 'rotate(0deg)' }"
+              >
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+              {{ filtersVisible ? $t('filters.toggleHide') : $t('filters.toggleShow') }}
+              <span v-if="activeFiltersCount > 0" class="filter-badge">
+                {{ activeFiltersCount }}
+              </span>
+            </button>
+            <div>
+              <button 
+              class="view-toggle-btn-header" 
+              :class="{ active: tableView === 'basicInfos' }"
+              @click="switchTableView('basicInfos')"
+              >
+                {{ $t('table.views.basicInfos') }}
+              </button>
+              <button 
+                class="view-toggle-btn-header" 
+                :class="{ active: tableView === 'priceChanges' }"
+                @click="switchTableView('priceChanges')"
+              >
+                {{ $t('table.views.priceChanges') }}
+              </button>
+            </div>
+          
+          </div>
         </div>
 
         <Transition name="slide-fade">
@@ -52,6 +71,7 @@
 
         <StockTable
           :stocks="filteredStocks"
+          :current-view="tableView"
           @show-details="showStockDetails"
         />
       </div>
@@ -94,9 +114,16 @@ const {
 const selectedStock = ref<Stock | null>(null)
 const isModalOpen = ref(false)
 const filtersVisible = ref(false)
+const tableView = ref<'basicInfos' | 'priceChanges'>('basicInfos')
 
 const toggleFilters = (): void => {
   filtersVisible.value = !filtersVisible.value
+}
+
+const switchTableView = (view: 'basicInfos' | 'priceChanges'): void => {
+  if (tableView.value !== view) {
+    tableView.value = view
+  }
 }
 
 const activeFiltersCount = computed((): number => {

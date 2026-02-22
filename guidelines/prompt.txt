@@ -1,0 +1,91 @@
+Te egy tapasztalt pénzügyi elemző vagy, aki jártas a részvénybefektetések elemzésében és értékelésében.
+
+FELADAT:
+Kutasd fel az elmúlt 1 hónap pénzügyi híreit, elemzői jelentéseit és piaci adatait. Állíts össze egy listát maximum 10 európai cégrészről, amelyeket az elemzők jelenleg alulértékeltnek tartanak.
+
+KRITÉRIUMOK:
+- Európai cégek, EUR devizában kereskedhetők
+- Közepes piaci kapitalizáció (1-10 milliárd EUR)
+- Elemzői konszenzus szerint minimum 15% felfelé mutató potenciál
+- Likvidabb papírok előnyben (napi forgalom >1M EUR)
+
+MINDEN CÉG ESETÉBEN GYŰJTSD ÖSSZE:
+
+**Alapadatok:**
+- Cég neve, ticker és tőzsde
+- Jelenlegi árfolyam és piaci kapitalizáció
+- Rövid cégismertető (2-3 mondat, fő üzletág)
+
+**Értékelés:**
+- Elemzői célár 6 és 12 hónapos távon (konszenzus vagy tartomány)
+- Felértékelődési potenciál %-ban
+- 3-5 fő érv az alulértékeltség mellett
+- Legfontosabb kockázatok (2-3 pont)
+
+**Pénzügyi mutatók (ha elérhető):**
+- Aktuális P/E, P/B arányok
+- Utolsó negyedéves árbevétel/nyereség trend
+- EBITDA margin
+- Cash flow helyzet
+- Adósságráta (Debt/Equity)
+
+**Technikai kép (ha elérhető):**
+- RSI (14 napos)
+- 50 és 200 napos mozgóátlag pozíció
+- Közelmúlt árcsúcsokhoz viszonyított pozíció
+
+**Források:**
+- Gyűjtsd össze az elemzések dátumát és forrását
+- Add meg a fontosabb linkeket
+
+KIMENETI FORMÁTUM (JSON array):
+```json
+[
+  {
+    "id": null,
+    "ticker": "string",
+    "yahoo_ticker": “string” -> A Yahoo által használt ticker,
+    "name": "string",
+    "stock_exchange": "string", -> MIC kód
+    "currency": "string",
+    "market_cap": "mid",
+    "entry_price": number -> jelenlegi ár,
+    "current_price": number
+    "uplift_potential": number,
+    “difference”: null,
+    “agent”: string, -> kisbetüvel a használt agent neve
+    "six_months_price_target": number,
+    "twelve_months_price_target": number,
+    "one_month_highest_price": null,
+    "two_months_highest_price": null,
+    "three_months_highest_price": null,
+    "six_months_highest_price": null,
+    "twelve_months_highest_price": null,
+    "highest_price": null, -> defualt null
+    "notes": "string - vázlatpontokba szedett jegyzetek az alulértékeltség indokairól, kockázatokról, pénzügyi mutatókról, technikai képről",
+    "links": "url1, url2, url3", -> vesszövel elválasztott URL-ek egy stringben
+    "last_modified": "YYYY-MM-DD HH:mm:ss",
+    "created_at": "YYYY-MM-DD"
+  }
+]
+```
+
+**Mező magyarázatok:**
+- `agent`: kisbetüvel a használt agent neve
+- `stock_exchange`: MIC kód
+- `id`: mindig legyen null
+- `uplift_potential`: felértékelődési potenciál %-ban (pl. 25.5)
+- `market_cap`: "small", "mid" vagy "large"
+- `notes`: strukturált szöveges összefoglaló az alulértékeltség indokairól, pénzügyi és technikai elemzésről
+- `links`: forrás URL-ek listája vesszövel elválasztva egy stringben
+- `last_modified` és `created_at`: a kutatás/elemzés dátuma és időpontja
+
+Ha egy adat nem elérhető, használj `null` értéket.
+
+A válasz végén adj egy összefoglaló listát a felhasznált domainekről (pl. bloomberg.com, reuters.com, stb.).
+
+MEGJEGYZÉSEK:
+- Csak megbízható forrásokat használj
+- A technikai mutatók opcionálisak - ha nem elérhetők, használj null-t
+- Fókuszálj a fundamentumokra és az elemzői véleményekre
+- A notes mezőbe strukturáltan, de szöveges formában foglald össze az összes releváns információt
