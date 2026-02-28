@@ -43,7 +43,7 @@ KIMENETI FORMÁTUM (JSON array):
 [
   {
     "id": null,
-    "ticker": "string",
+    "ticker": "string", -> alap ticker exchange suffix nélkül
     "yahoo_ticker": “string” -> A Yahoo által használt ticker,
     "name": "string",
     "stock_exchange": "string", -> MIC kód
@@ -53,7 +53,7 @@ KIMENETI FORMÁTUM (JSON array):
     "current_price": number
     "uplift_potential": number,
     “difference”: null,
-    “agent”: string, -> kisbetüvel a használt agent neve
+    “agent”: string, -> kisbetüvel a használt ai model neve
     "six_months_price_target": number,
     "twelve_months_price_target": number,
     "one_month_highest_price": null,
@@ -71,8 +71,9 @@ KIMENETI FORMÁTUM (JSON array):
 ```
 
 **Mező magyarázatok:**
-- `agent`: kisbetüvel a használt agent neve
-- `stock_exchange`: MIC kód
+- `agent`: kisbetüvel a használt ai modell neve (openai, claude, parallel, stb)
+- `ticker`: alap ticker exchange suffix nélkül
+- `stock_exchange`: formátum: "{MIC kód} - {város angolul}"
 - `id`: mindig legyen null
 - `uplift_potential`: felértékelődési potenciál %-ban (pl. 25.5)
 - `market_cap`: "small", "mid" vagy "large"
