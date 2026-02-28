@@ -391,7 +391,7 @@
   },
   {
     "id": null,
-    "ticker": "ARCAD.AS",
+    "ticker": "ARCAD",
     "yahoo_ticker": "ARCAD.AS",
     "name": "Arcadis N.V.",
     "stock_exchange": "XAMS - Amsterdam",
@@ -417,7 +417,7 @@
   },
   {
     "id": null,
-    "ticker": "KRN.DE",
+    "ticker": "KRN",
     "yahoo_ticker": "KRN.DE",
     "name": "Krones AG",
     "stock_exchange": "XETR - Frankfurt",
@@ -443,7 +443,7 @@
   },
   {
     "id": null,
-    "ticker": "SIX2.DE",
+    "ticker": "SIX2",
     "yahoo_ticker": "SIX2.DE",
     "name": "Sixt SE",
     "stock_exchange": "XETR - Frankfurt",
@@ -469,7 +469,7 @@
   },
   {
     "id": null,
-    "ticker": "RDC.DE",
+    "ticker": "RDC",
     "yahoo_ticker": "RDC.DE",
     "name": "Redcare Pharmacy N.V.",
     "stock_exchange": "XETR - Frankfurt",
@@ -495,7 +495,7 @@
   },
   {
     "id": null,
-    "ticker": "INPST.AS",
+    "ticker": "INPST",
     "yahoo_ticker": "INPST.AS",
     "name": "InPost S.A.",
     "stock_exchange": "XAMS - Amsterdam",
@@ -729,7 +729,7 @@
   },
   {
     "id": null,
-    "ticker": "PHM.MC",
+    "ticker": "PHM",
     "yahoo_ticker": "PHM.MC",
     "name": "Pharma Mar S.A.",
     "stock_exchange": "XMAD - Madrid",
@@ -755,7 +755,7 @@
   },
   {
     "id": null,
-    "ticker": "TNIE.DE",
+    "ticker": "TNIE",
     "yahoo_ticker": "TNIE.DE",
     "name": "tonies SE",
     "stock_exchange": "XETR - Frankfurt",
@@ -781,7 +781,7 @@
   },
   {
     "id": null,
-    "ticker": "NEXI.MI",
+    "ticker": "NEXI",
     "yahoo_ticker": "NEXI.MI",
     "name": "Nexi S.p.A.",
     "stock_exchange": "MTAA - Milano",
@@ -807,7 +807,7 @@
   },
   {
     "id": null,
-    "ticker": "EDEN.PA",
+    "ticker": "EDEN",
     "yahoo_ticker": "EDEN.PA",
     "name": "Edenred SE",
     "stock_exchange": "XPAR - Paris",
