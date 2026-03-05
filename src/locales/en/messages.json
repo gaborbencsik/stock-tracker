@@ -70,7 +70,8 @@
       "actions": "Actions"
     },
     "actions": {
-      "details": "Details"
+      "details": "Details",
+      "toggle": "Toggle group"
     }
   },
   "modal": {

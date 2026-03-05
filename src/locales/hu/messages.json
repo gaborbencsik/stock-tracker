@@ -70,7 +70,8 @@
       "actions": "Műveletek"
     },
     "actions": {
-      "details": "Részletek"
+      "details": "Részletek",
+      "toggle": "Csoport be/ki"
     }
   },
   "modal": {
