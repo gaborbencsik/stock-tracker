@@ -142,17 +142,20 @@ describe('StockTable', () => {
       ]
       const wrapper = mountStockTable(stocks)
 
-      // Initially, groups are collapsed, so expand them first
-      const tickerCells = wrapper.findAll('.ticker-cell')
-      await tickerCells[0].trigger('click') // Expand AAPL
-      await nextTick()
-      await tickerCells[1].trigger('click') // Expand MSFT (index might change after Vue update)
-      await nextTick()
+      // Initially, groups are collapsed (collapsible rows show ticket badges)
+      let tickerBadges = wrapper.findAll('.stock-row-collapsible .ticker-badge')
+      expect(tickerBadges.length).toBeGreaterThan(0)
+      expect(tickerBadges[0].text()).toMatch(/AAPL|MSFT/)
 
-      const groupHeaders = wrapper.findAll('.stock-group-header')
-      const tickerTexts = groupHeaders.map(header => header.find('.ticker-badge')?.text())
-      expect(tickerTexts).toContain('AAPL')
-      expect(tickerTexts).toContain('MSFT')
+      // Now expand the groups to see headers in expanded state
+      const collapsibleRows = wrapper.findAll('.stock-row-collapsible')
+      await collapsibleRows[0]?.find('.ticker-cell')?.trigger('click')
+      await nextTick()
+      
+      // In expanded state, first detail row should contain ticker badge
+      const expandedDetailRows = wrapper.findAll('.stock-row-group-details')
+      const firstRowBadge = expandedDetailRows[0]?.find('.ticker-badge')
+      expect(firstRowBadge?.text()).toBe('AAPL')
     })
 
     it('should display stock name in each detail row', async () => {
@@ -633,14 +636,19 @@ describe('StockTable', () => {
       ]
       const wrapper = mountStockTable(stocks)
 
-      // Expand the groups to see headers
-      const tickerCells = wrapper.findAll('.ticker-cell')
-      await tickerCells[0].trigger('click') // Expand AAPL
+      // Expand the AAPL group to see detail rows with ticker in first row
+      const collapsibleRows = wrapper.findAll('.stock-row-collapsible')
+      const aaplCollapsibleRow = collapsibleRows[0]
+      const tickerCell = aaplCollapsibleRow.find('.ticker-cell')
+      await tickerCell?.trigger('click')
       await nextTick()
 
-      const groupHeaders = wrapper.findAll('.stock-group-header')
-      // At least one group header should be visible after expanding
-      expect(groupHeaders.length).toBeGreaterThan(0)
+      // In expanded state, the detail rows should be visible
+      const detailRows = wrapper.findAll('.stock-row-group-details')
+      // At least one detail row should be visible after expanding
+      expect(detailRows.length).toBeGreaterThan(0)
+      // First detail row should have ticker badge
+      expect(detailRows[0].find('.ticker-badge')?.text()).toBe('AAPL')
     })
 
     it('should display ticker only in group header, not in detail rows', async () => {
@@ -651,23 +659,24 @@ describe('StockTable', () => {
       const wrapper = mountStockTable(stocks)
 
       // Initially collapsed, so expand the group
-      const tickerCell = wrapper.find('.ticker-cell')
+      const collapsibleRow = wrapper.find('.stock-row-collapsible')
+      const tickerCell = collapsibleRow.find('.ticker-cell')
       await tickerCell.trigger('click')
       await nextTick()
 
-      // Find group header ticker badge
-      const groupHeaders = wrapper.findAll('.stock-group-header')
-      expect(groupHeaders[0].find('.ticker-badge')?.text()).toBe('AAPL')
-
-      // Check that detail rows don't have visible ticker badges
-      const detailRows = wrapper.findAll('.stock-row-in-group')
+      // In expanded state, check detail rows
+      const detailRows = wrapper.findAll('.stock-row-group-details')
       expect(detailRows.length).toBe(2)
-      // Detail rows have empty ticker cells
-      expect(detailRows[0].find('.ticker-cell')?.text()).toBe('')
-      expect(detailRows[1].find('.ticker-cell')?.text()).toBe('')
+      
+      // First detail row should have ticker badge with toggle icon
+      expect(detailRows[0].find('.ticker-badge')?.text()).toBe('AAPL')
+      expect(detailRows[0].find('.toggle-icon')?.exists()).toBe(true)
+      
+      // Second detail row should have empty ticker cell (no badge)
+      expect(detailRows[1].find('.ticker-badge')?.exists()).toBe(false)
     })
 
-    it('should apply group styling to headers', async () => {
+    it('should apply group styling to detail rows', async () => {
       const stocks: Stock[] = [
         { ...mockStocks[0], id: 1, ticker: 'AAPL' },
         { ...mockStocks[0], id: 2, ticker: 'AAPL' },
@@ -675,12 +684,15 @@ describe('StockTable', () => {
       const wrapper = mountStockTable(stocks)
 
       // Expand the group
-      const tickerCell = wrapper.find('.ticker-cell')
+      const collapsibleRow = wrapper.find('.stock-row-collapsible')
+      const tickerCell = collapsibleRow.find('.ticker-cell')
       await tickerCell.trigger('click')
       await nextTick()
 
-      const groupHeaders = wrapper.findAll('.stock-group-header')
-      expect(groupHeaders[0].classes()).toContain('stock-group-header')
+      const detailRows = wrapper.findAll('.stock-row-group-details')
+      expect(detailRows.length).toBeGreaterThan(0)
+      // All detail rows should have the group styling class
+      expect(detailRows[0].classes()).toContain('stock-row-group-details')
     })
 
     it('should emit show-details event from grouped row', async () => {
@@ -759,21 +771,29 @@ describe('StockTable', () => {
       ]
       const wrapper = mountStockTable(stocks)
 
-      // Initially, groups are collapsed, so no headers visible
-      let groupHeaders = wrapper.findAll('.stock-group-header')
-      expect(groupHeaders.length).toBe(0)
-
-      // Expand the AAPL group (first collapsed row)
+      // Check that AAPL is a multi-item group (has collapsible row with toggle)
       const collapsedRows = wrapper.findAll('.stock-row-collapsible')
-      const aapleCollapsedRow = collapsedRows[0]
-      const tickerCell = aapleCollapsedRow.find('.ticker-cell')
+      const aaplCollapsedRow = collapsedRows[0]
+      expect(aaplCollapsedRow.find('.toggle-icon')?.exists()).toBe(true)
+      expect(aaplCollapsedRow.find('.ticker-badge')?.text()).toBe('AAPL')
+
+      // MSFT is single-item group, so it should render as normal row without toggle
+      const singleItemRows = wrapper.findAll('.stock-row:not(.stock-row-collapsible)')
+      expect(singleItemRows.length).toBeGreaterThan(0)
+      // Single item rows should have ticker badge but no toggle icon
+      const msftBadge = singleItemRows.find(row => row.find('.ticker-badge')?.text() === 'MSFT')
+      expect(msftBadge?.find('.toggle-icon')?.exists()).toBe(false)
+
+      // Expand the AAPL group (multi-item group)
+      const tickerCell = aaplCollapsedRow.find('.ticker-cell')
       await tickerCell.trigger('click')
       await nextTick()
 
-      // Now the AAPL group header should be visible
-      groupHeaders = wrapper.findAll('.stock-group-header')
-      expect(groupHeaders.length).toBe(1)
-      expect(groupHeaders[0].find('.ticker-badge')?.text()).toBe('AAPL')
+      // Now the AAPL detail rows should be visible with ticker in first row
+      const detailRows = wrapper.findAll('.stock-row-group-details')
+      expect(detailRows.length).toBe(2)
+      expect(detailRows[0].find('.ticker-badge')?.text()).toBe('AAPL')
+      expect(detailRows[0].find('.toggle-icon-open')?.exists()).toBe(true)
     })
 
     it('should render single-item groups as normal rows with ticker visible', () => {

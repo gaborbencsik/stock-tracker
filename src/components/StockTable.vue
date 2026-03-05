@@ -319,37 +319,33 @@
                 </template>
               </tr>
 
-              <!-- Expanded State - Header and Detail Rows -->
+              <!-- Expanded State - Detail Rows with Inline Header -->
               <template v-else>
-                <!-- Group Header Row -->
-                <tr class="stock-group-header stock-group-header-expanded" @click="toggleGroup(group.ticker, $event)">
-                  <td class="ticker-cell" data-label="Ticker">
-                    <div class="ticker-with-toggle">
-                      <span class="ticker-badge">{{ group.ticker }}</span>
-                      <button 
-                        class="toggle-icon toggle-icon-open"
-                        @click="toggleGroup(group.ticker, $event)"
-                        :aria-label="$t('table.actions.toggle')"
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                  <td colspan="100" class="group-spacer"></td>
-                </tr>
-                
-                <!-- Group Detail Rows -->
+                <!-- Group Detail Rows (first row includes ticker and toggle) -->
                 <tr 
-                  v-for="stock in group.stocks" 
+                  v-for="(stock, index) in group.stocks" 
                   :key="stock.id"
                   class="stock-row stock-row-in-group stock-row-group-details"
                   @click="handleDetails(stock)"
                 >
                   <!-- Basic Infos View -->
                   <template v-if="currentView === 'basicInfos'">
-                    <td class="ticker-cell" data-label="Ticker"></td>
+                    <td class="ticker-cell" data-label="Ticker">
+                      <template v-if="index === 0">
+                        <div class="ticker-with-toggle">
+                          <span class="ticker-badge">{{ group.ticker }}</span>
+                          <button 
+                            class="toggle-icon toggle-icon-open"
+                            @click="toggleGroup(group.ticker, $event)"
+                            :aria-label="$t('table.actions.toggle')"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </button>
+                        </div>
+                      </template>
+                    </td>
                     <td class="name-cell" data-label="Name">{{ stock.name }}</td>
                     <td class="stock-exchange-cell" data-label="Exchange">{{ stock.stock_exchange }}</td>
                     <td class="market-cap-cell" data-label="Market Cap">{{ stock.market_cap }}</td>
@@ -385,7 +381,22 @@
 
                   <!-- Price Changes View -->
                   <template v-else-if="currentView === 'priceChanges'">
-                    <td class="ticker-cell" data-label="Ticker"></td>
+                    <td class="ticker-cell" data-label="Ticker">
+                      <template v-if="index === 0">
+                        <div class="ticker-with-toggle">
+                          <span class="ticker-badge">{{ group.ticker }}</span>
+                          <button 
+                            class="toggle-icon toggle-icon-open"
+                            @click="toggleGroup(group.ticker, $event)"
+                            :aria-label="$t('table.actions.toggle')"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </button>
+                        </div>
+                      </template>
+                    </td>
                     <td class="name-cell" data-label="Name">{{ stock.name }}</td>
                     <td class="potential-cell" data-label="Potential">
                       <span 
