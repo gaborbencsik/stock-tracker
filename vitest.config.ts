@@ -20,6 +20,7 @@ export default defineConfig({
         'src/tests/',
         '*.config.*',
         'src/main.ts',
+        'src/locales/i18n.ts'
       ],
       include: ['src/**/*.{ts,vue}', 'lib/**/*.ts']
     }

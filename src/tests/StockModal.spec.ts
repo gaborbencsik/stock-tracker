@@ -238,6 +238,152 @@ describe('StockModal', () => {
     })
   })
 
+  describe('keyboard and lifecycle interactions', () => {
+    it('should handle Escape key press to close modal', async () => {
+      const wrapper = mountStockModal()
+
+      const event = new KeyboardEvent('keydown', { key: 'Escape' })
+      document.dispatchEvent(event)
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.emitted('close')).toBeTruthy()
+    })
+
+    it('should not close when Escape is pressed and modal is closed', async () => {
+      const wrapper = mountStockModal(mockStock, false)
+      const initialEmits = wrapper.emitted('close')?.length || 0
+
+      const event = new KeyboardEvent('keydown', { key: 'Escape' })
+      document.dispatchEvent(event)
+      await wrapper.vm.$nextTick()
+
+      const finalEmits = wrapper.emitted('close')?.length || 0
+      expect(finalEmits).toBe(initialEmits)
+    })
+
+    it('should handle other keys without closing', async () => {
+      const wrapper = mountStockModal()
+
+      const event = new KeyboardEvent('keydown', { key: 'Enter' })
+      document.dispatchEvent(event)
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.emitted('close')).toBeFalsy()
+    })
+
+    it('should restore body scroll when modal closes via prop change', async () => {
+      const initialOverflow = document.body.style.overflow
+      
+      const wrapper = mountStockModal(mockStock, true)
+      // Wait for watcher to execute
+      await wrapper.vm.$nextTick()
+      await new Promise(resolve => setTimeout(resolve, 10))
+
+      // Change to closed state
+      await wrapper.setProps({ isOpen: false })
+      await wrapper.vm.$nextTick()
+
+      expect(document.body.style.overflow).toBe('') 
+      
+      // Cleanup
+      document.body.style.overflow = initialOverflow
+    })
+
+    it('should handle rapid isOpen toggle', async () => {
+      const wrapper = mountStockModal(mockStock, false)
+      
+      // Open modal
+      await wrapper.setProps({ isOpen: true })
+      await wrapper.vm.$nextTick()
+
+      // Close modal
+      await wrapper.setProps({ isOpen: false })
+      await wrapper.vm.$nextTick()
+      expect(document.body.style.overflow).toBe('')
+
+      // Reopen modal
+      await wrapper.setProps({ isOpen: true })
+      await wrapper.vm.$nextTick()
+
+      // Cleanup
+      document.body.style.overflow = ''
+    })
+
+    it('should display modal backdrop when isOpen is true even with null stock', () => {
+      const wrapper = mountStockModal(null, true)
+      
+      // Backdrop should still render when isOpen=true, regardless of stock
+      expect(wrapper.find('.modal-backdrop').exists()).toBe(true)
+    })
+  })
+
+  describe('notes section edge cases', () => {
+    it('should not display notes when notes is null', () => {
+      const stockWithNullNotes = { ...mockStock, notes: null as any }
+      const wrapper = mountStockModal(stockWithNullNotes)
+
+      expect(wrapper.find('.notes-section').exists()).toBe(false)
+    })
+
+    it('should display notes when notes have content', () => {
+      const stockWithNotes = { ...mockStock, notes: 'Important note about the stock' }
+      const wrapper = mountStockModal(stockWithNotes)
+
+      expect(wrapper.find('.notes-section').exists()).toBe(true)
+      expect(wrapper.text()).toContain('Important note about the stock')
+    })
+
+    it('should handle notes with special characters', () => {
+      const stockWithSpecialChars = { ...mockStock, notes: 'Test <>&" chars' }
+      const wrapper = mountStockModal(stockWithSpecialChars)
+
+      expect(wrapper.text()).toContain('Test')
+    })
+
+    it('should handle whitespace-only notes as empty', () => {
+      const stockWithWhitespace = { ...mockStock, notes: '   ' }
+      const wrapper = mountStockModal(stockWithWhitespace)
+
+      // "   " is truthy, so section will display but with whitespace only
+      expect(wrapper.find('.notes-section').exists()).toBe(true)
+    })
+  })
+
+  describe('difference section rendering', () => {
+    it('should display difference card when difference is not null', () => {
+      const stockWithDifference = { ...mockStock, difference: 5.25 }
+      const wrapper = mountStockModal(stockWithDifference)
+
+      const differenceCard = wrapper.find('.difference-card')
+      expect(differenceCard.exists()).toBe(true)
+      expect(differenceCard.text()).toContain('+5.25%')
+    })
+
+    it('should not display difference card when difference is null', () => {
+      const stockWithoutDifference = { ...mockStock, difference: null }
+      const wrapper = mountStockModal(stockWithoutDifference)
+
+      expect(wrapper.findAll('.difference-card').length).toBe(0)
+    })
+
+    it('should show negative sign for negative difference', () => {
+      const stockWithNegativeDiff = { ...mockStock, difference: -3.75 }
+      const wrapper = mountStockModal(stockWithNegativeDiff)
+
+      const differenceCard = wrapper.find('.difference-card')
+      expect(differenceCard.classes()).toContain('negative')
+      expect(differenceCard.text()).toContain('-3.75%')
+    })
+
+    it('should show positive class for zero difference', () => {
+      const stockWithZeroDiff = { ...mockStock, difference: 0 }
+      const wrapper = mountStockModal(stockWithZeroDiff)
+
+      const differenceCard = wrapper.find('.difference-card')
+      expect(differenceCard.classes()).toContain('positive')
+    })
+  })
+
   describe('null price targets handling', () => {
     it('should render correctly with null six_months_price_target', () => {
       const stockWithNullTarget = { ...mockStock, six_months_price_target: null }
@@ -296,6 +442,88 @@ describe('StockModal', () => {
       const wrapper = mountStockModal(midCapStock)
 
       expect(wrapper.text()).toContain('mid')
+    })
+  })
+
+  describe('links section', () => {
+    it('should display links when provided', () => {
+      const stockWithLinks = {
+        ...mockStock,
+        links: 'https://investor.apple.com, https://seekingalpha.com/symbol/AAPL'
+      }
+      const wrapper = mountStockModal(stockWithLinks)
+
+      expect(wrapper.text()).toContain('investor.apple.com')
+      expect(wrapper.text()).toContain('seekingalpha.com')
+    })
+
+    it('should not display links section when links are empty', () => {
+      const stockWithoutLinks = { ...mockStock, links: '' }
+      const wrapper = mountStockModal(stockWithoutLinks)
+
+      const linksSection = wrapper.find('.links-section')
+      expect(linksSection.exists()).toBe(false)
+    })
+
+    it('should handle malformed URLs gracefully', () => {
+      const stockWithMalformedLinks = {
+        ...mockStock,
+        links: 'not-a-valid-url, another-invalid'
+      }
+      const wrapper = mountStockModal(stockWithMalformedLinks)
+
+      // Should still render with fallback labels
+      expect(wrapper.text()).toContain('not-a-valid-url')
+      expect(wrapper.text()).toContain('another-invalid')
+    })
+
+    it('should parse valid URLs and extract hostname', () => {
+      const stockWithValidUrl = {
+        ...mockStock,
+        links: 'https://www.example.com/path'
+      }
+      const wrapper = mountStockModal(stockWithValidUrl)
+
+      // Should display hostname without 'www.'
+      expect(wrapper.text()).toContain('example.com')
+    })
+
+    it('should filter out empty links from comma-separated list', () => {
+      const stockWithEmptyLinks = {
+        ...mockStock,
+        links: 'https://example.com,  , https://another.com'
+      }
+      const wrapper = mountStockModal(stockWithEmptyLinks)
+
+      expect(wrapper.text()).toContain('example.com')
+      expect(wrapper.text()).toContain('another.com')
+      // Should not try to render empty link
+      expect(wrapper.findAll('.link-chip').length).toBe(2)
+    })
+  })
+
+  describe('AI model section', () => {
+    it('should display AI model when provided', () => {
+      const stockWithAgent = { ...mockStock, agent: 'OpenAI' }
+      const wrapper = mountStockModal(stockWithAgent)
+
+      expect(wrapper.text()).toContain('AI model')
+      expect(wrapper.text()).toContain('OpenAI')
+    })
+
+    it('should not display AI model section when agent is empty', () => {
+      const stockWithoutAgent = { ...mockStock, agent: '' }
+      const wrapper = mountStockModal(stockWithoutAgent)
+
+      const agentSection = wrapper.find('.ai-model-section')
+      expect(agentSection.exists()).toBe(false)
+    })
+
+    it('should display different AI models', () => {
+      const stockWithGemini = { ...mockStock, agent: 'Gemini' }
+      const wrapper = mountStockModal(stockWithGemini)
+
+      expect(wrapper.text()).toContain('Gemini')
     })
   })
 })

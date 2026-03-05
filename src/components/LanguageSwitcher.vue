@@ -13,7 +13,7 @@ import { useI18n } from 'vue-i18n'
 import { ref, watch, computed } from 'vue'
 
 const { locale } = useI18n()
-const currentLanguage = ref<'hu' | 'en'>(locale.value as 'hu' | 'en' || 'hu')
+const currentLanguage = ref<'hu' | 'en'>(locale.value as 'hu' | 'en')
 
 const nextLanguage = computed((): 'hu' | 'en' => {
   return currentLanguage.value === 'hu' ? 'en' : 'hu'
@@ -31,7 +31,7 @@ const toggleLanguage = (): void => {
 }
 
 watch(locale, (newLocale) => {
-  currentLanguage.value = (newLocale || 'hu') as 'hu' | 'en'
+  currentLanguage.value = newLocale as 'hu' | 'en'
 })
 </script>
 

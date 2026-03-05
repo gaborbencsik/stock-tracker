@@ -205,6 +205,164 @@ describe('LanguageSwitcher', () => {
       const toggleButton = wrapper.find('.lang-toggle')
       expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
     })
+
+    it('should update aria-label when language changes to English', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
+
+      // Switch to English
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to Hungarian')
+    })
+
+    it('should render with English locale and correct aria-label', () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'en',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      const toggleButton = wrapper.find('.lang-toggle')
+      // When current is EN, button should show HU
+      expect(toggleButton.text()).toBe('HU')
+      // When current is EN, nextLanguage is HU, so aria-label should say "Switch to Hungarian"
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to Hungarian')
+    })
+
+    it('should switch from English to Hungarian correctly', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'en',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('HU')
+
+      // Click to switch to Hungarian
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      // After clicking HU button, locale should be 'hu' and button should show 'EN'
+      expect(getLocaleValue(i18n.global.locale)).toBe('hu')
+      toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('EN')
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
+    })
+  })
+
+  describe('Additional branch coverage', () => {
+    it('should test all aria-label combinations during language changes', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'en',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      // Starting with 'en': nextLanguage is 'hu', so aria-label should say Hungarian
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to Hungarian')
+      expect(toggleButton.text()).toBe('HU')
+
+      // Switch to Hungarian
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      toggleButton = wrapper.find('.lang-toggle')
+      // Now with 'hu': nextLanguage is 'en', so aria-label should say English
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to English')
+      expect(toggleButton.text()).toBe('EN')
+
+      // Switch back to English
+      await toggleButton.trigger('click')
+      await wrapper.vm.$nextTick()
+
+      toggleButton = wrapper.find('.lang-toggle')
+      // Back to 'en': nextLanguage is 'hu'
+      expect(toggleButton.attributes('aria-label')).toBe('Switch to Hungarian')
+      expect(toggleButton.text()).toBe('HU')
+    })
+
+    it('should handle language persistence and reactive updates', async () => {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'hu',
+        fallbackLocale: 'hu',
+        messages: { hu, en },
+        globalInjection: true,
+        missingWarn: false,
+        fallbackWarn: false
+      })
+
+      const wrapper = mount(LanguageSwitcher, {
+        global: {
+          plugins: [i18n]
+        }
+      })
+
+      let toggleButton = wrapper.find('.lang-toggle')
+      expect(toggleButton.text()).toBe('EN')
+
+      // Multiple toggles to test persistence
+      for (let i = 0; i < 3; i++) {
+        await toggleButton.trigger('click')
+        await wrapper.vm.$nextTick()
+        toggleButton = wrapper.find('.lang-toggle')
+
+        const expectedLocale = i % 2 === 0 ? 'en' : 'hu'
+        expect(localStorage.getItem('app-language')).toBe(expectedLocale)
+        expect(getLocaleValue(i18n.global.locale)).toBe(expectedLocale)
+      }
+    })
   })
 
   describe('Responsive design (mobile viewport)', () => {
