@@ -12,6 +12,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    clearMocks: true,
+    mockReset: true,
+    restoreMocks: true,
     coverage: {
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],

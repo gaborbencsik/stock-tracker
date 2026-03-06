@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
+import { execSync as defaultExecSync } from 'child_process'
 import type { Stock } from '../../src/types/Stock'
 import type { FileAdapter, GitAdapter } from './syncStockPrices'
 
@@ -31,14 +31,16 @@ export class FileSystemAdapter implements FileAdapter {
 
 export class GitCommandAdapter implements GitAdapter {
   private projectRoot: string
+  private execSync: typeof defaultExecSync
 
-  constructor(projectRoot: string = process.cwd()) {
+  constructor(projectRoot: string = process.cwd(), execSync?: typeof defaultExecSync) {
     this.projectRoot = projectRoot
+    this.execSync = execSync || defaultExecSync
   }
 
   async add(filePath: string): Promise<void> {
     try {
-      execSync(`git -C "${this.projectRoot}" add "${filePath}"`, {
+      this.execSync(`git -C "${this.projectRoot}" add "${filePath}"`, {
         stdio: 'pipe',
         encoding: 'utf-8',
       })
@@ -49,7 +51,7 @@ export class GitCommandAdapter implements GitAdapter {
 
   async commit(message: string): Promise<void> {
     try {
-      execSync(`git -C "${this.projectRoot}" commit -m "${message}"`, {
+      this.execSync(`git -C "${this.projectRoot}" commit -m "${message}"`, {
         stdio: 'pipe',
         encoding: 'utf-8',
       })
@@ -60,7 +62,7 @@ export class GitCommandAdapter implements GitAdapter {
 
   async push(): Promise<void> {
     try {
-      execSync(`git -C "${this.projectRoot}" push`, {
+      this.execSync(`git -C "${this.projectRoot}" push`, {
         stdio: 'pipe',
         encoding: 'utf-8',
       })
