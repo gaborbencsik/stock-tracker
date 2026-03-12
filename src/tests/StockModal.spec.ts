@@ -36,6 +36,7 @@ describe('StockModal', () => {
     six_months_highest_price: 190.50,
     twelve_months_highest_price: 195.00,
     highest_price: 198.23,
+    yahoo_ticker: 'AAPL',
     notes: 'Test notes',
     links: 'https://investor.apple.com, https://seekingalpha.com/symbol/AAPL',
     agent: 'OpenAI',

@@ -17,6 +17,7 @@ export interface Stock {
   six_months_highest_price: number | null
   twelve_months_highest_price: number | null
   highest_price: number | null
+  yahoo_ticker: string
   notes: string
   links: string
   agent: string
