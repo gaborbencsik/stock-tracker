@@ -937,7 +937,7 @@
   },
   {
     "id": null,
-    "ticker": "XMIL:NEXI",
+    "ticker": "NEXI",
     "yahoo_ticker": "NEXI.MI",
     "name": "Nexi S.p.A.",
     "stock_exchange": "XMIL - Milan",
@@ -963,7 +963,7 @@
   },
   {
     "id": null,
-    "ticker": "XPAR:EDEN",
+    "ticker": "EDEN",
     "yahoo_ticker": "EDEN.PA",
     "name": "Edenred SE",
     "stock_exchange": "XPAR - Paris",
@@ -989,7 +989,7 @@
   },
   {
     "id": null,
-    "ticker": "XSTO:EKTA B",
+    "ticker": "EKTA B",
     "yahoo_ticker": "EKTA-B.ST",
     "name": "Elekta AB (publ)",
     "stock_exchange": "XSTO - Stockholm",
@@ -1015,7 +1015,7 @@
   },
   {
     "id": null,
-    "ticker": "XCSE:GN",
+    "ticker": "GN",
     "yahoo_ticker": "GN.CO",
     "name": "GN Store Nord A/S",
     "stock_exchange": "XCSE - Copenhagen",
@@ -1044,7 +1044,7 @@
     "ticker": "NEXI",
     "yahoo_ticker": "NEXI.MI",
     "name": "Nexi SpA",
-    "stock_exchange": "XMIL",
+    "stock_exchange": "XMIL - Milan",
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 2.9,
@@ -1616,7 +1616,7 @@
     "ticker": "NEXI",
     "yahoo_ticker": "NEXI.MI",
     "name": "Nexi S.p.A.",
-    "stock_exchange": "XMIL",
+    "stock_exchange": "XMIL - Milan",
     "currency": "EUR",
     "market_cap": "mid",
     "entry_price": 3.02,
