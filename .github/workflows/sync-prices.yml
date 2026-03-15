@@ -57,6 +57,14 @@ jobs:
       - name: Sync stock prices
         run: npm run sync
 
+      - name: Fetch daily prices
+        run: node scripts/fetch-daily-prices.js
+
+      - name: Commit daily prices
+        run: |
+          git add src/data/prices.json
+          git diff --staged --quiet && echo "No price changes to commit" || (git commit -m "update prices at $(date +'%Y. %m. %d. %H:%M')" && git push)
+
       - name: Check for uncommitted changes
         id: check_changes
         run: |
